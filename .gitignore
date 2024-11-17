@@ -1,7 +1,6 @@
 # Ignore build and output folders
 bin/
 obj/
-Properties/
 .vs/
 
 # Ignore backup and log files
