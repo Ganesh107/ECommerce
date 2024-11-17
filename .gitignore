@@ -1,0 +1,18 @@
+# Ignore build and output folders
+bin/
+obj/
+Properties/
+.vs/
+
+# Ignore backup and log files
+*.bak
+*.log
+
+# Ignore application secrets
+appsettings.Development.json
+appsettings.Local.json
+
+# Ignore temporary files and build artifacts
+*.pdb
+*.exe
+*.dll
