@@ -1,4 +1,7 @@
 
+using ECommerce.User.Service.UserContext;
+using Microsoft.EntityFrameworkCore;
+
 namespace ECommerce.User.Service
 {
     public class Program
@@ -14,6 +17,9 @@ namespace ECommerce.User.Service
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // Context 
+            //builder.Services.AddDbContext<UserDbContext>(options => options.UseSqlServer("constring"));
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -24,9 +30,6 @@ namespace ECommerce.User.Service
             }
 
             app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
 
             app.MapControllers();
 
