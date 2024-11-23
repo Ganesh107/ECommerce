@@ -8,6 +8,14 @@ stages:
   jobs:
   - job: build_job
     steps:
+      # Restore dependencies
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'restore'
+          projects: |
+            app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
+     
+      # Build projects
       - task: DotNetCoreCLI@2
         inputs:
           command: 'build'
