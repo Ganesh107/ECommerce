@@ -15,3 +15,7 @@ appsettings.Local.json
 *.pdb
 *.exe
 *.dll
+
+# Ignore database model files
+*.dbmdl
+*.jfm
