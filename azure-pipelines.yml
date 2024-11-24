@@ -1,10 +1,10 @@
 trigger: 
-- main
+- none
 
 stages:
 - stage: build
   pool: 
-   vmImage: 'ubuntu-latest'
+    vmImage: 'ubuntu-latest'
   jobs:
   - job: build_job
     steps:
