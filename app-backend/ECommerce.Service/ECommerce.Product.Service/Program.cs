@@ -1,8 +1,10 @@
 
-using ECommerce.User.Service.Model;
+using ECommerce.Product.Service.Model;
+using ECommerce.Product.Service.Service;
 using ECommerce.User.Service.UserContext;
 using ECommerce.User.Service.Utility;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace ECommerce.User.Service
 {
@@ -17,16 +19,23 @@ namespace ECommerce.User.Service
 
             // Add services to the container.
             builder.Services.Configure<ConfigurationItem>(builder.Configuration.GetSection("ConfigurationItem"));
-            builder.Services.AddDbContext<UserDbContext>(options =>
-            options.UseSqlServer(configItem.UserConnectionString));
-
+            
             builder.Services.AddControllers();
+
+            // Context
+            builder.Services.AddDbContext<ProductDbContext>(options =>
+                options.UseSqlServer(configItem.UserConnectionString));
+
+            // Service
+            builder.Services.AddScoped<IUserService, UserService>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
-            // Context 
-            //builder.Services.AddDbContext<UserDbContext>(options => options.UseSqlServer("constring"));
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            });
 
             var app = builder.Build();
 
@@ -36,7 +45,7 @@ namespace ECommerce.User.Service
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            
             app.UseHttpsRedirection();
 
             app.MapControllers();

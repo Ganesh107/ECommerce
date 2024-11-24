@@ -1,6 +1,8 @@
-﻿namespace ECommerce.User.Service.Model
+﻿using ECommerce.Product.Service.Utility;
+
+namespace ECommerce.Product.Service.Model.User
 {
-    public class UserModel
+    public class UserModel : EntityBase
     {
         public Guid? UserId { get; set; }
         public string? Name { get; set; }
