@@ -14,6 +14,7 @@ stages:
           command: 'restore'
           projects: |
             app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
+            app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
      
       # Build projects
       - task: DotNetCoreCLI@2
@@ -21,6 +22,7 @@ stages:
           command: 'build'
           projects: |
             app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
+            app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
 
 
 
