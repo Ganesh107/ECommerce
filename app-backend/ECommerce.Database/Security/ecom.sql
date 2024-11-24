@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [ecom]
+    AUTHORIZATION [dbo];
+

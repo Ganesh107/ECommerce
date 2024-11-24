@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35208.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ECommerce.Database", "ECommerce.Database.sqlproj", "{BF2FC629-A19B-4E5D-95E1-5B1F55543E7C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF2FC629-A19B-4E5D-95E1-5B1F55543E7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF2FC629-A19B-4E5D-95E1-5B1F55543E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF2FC629-A19B-4E5D-95E1-5B1F55543E7C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BF2FC629-A19B-4E5D-95E1-5B1F55543E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF2FC629-A19B-4E5D-95E1-5B1F55543E7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF2FC629-A19B-4E5D-95E1-5B1F55543E7C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F238C78B-072C-4CC8-BC6A-DB6E3E854A97}
+	EndGlobalSection
+EndGlobal
