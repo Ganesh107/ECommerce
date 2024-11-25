@@ -24,6 +24,21 @@ stages:
             app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
             app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
 
+      # Build database projects
+      - task: VSBuild@1
+        inputs:
+          solution: app-backend/ECommerce.Database/ECommerce.Database.sqlproj
+          platform: 'Any CPU' 
+          configuration: 'Release'
 
-
-
+  - job: publish
+    steps:
+      - task: PublishBuildArtifacts@1
+        inputs:
+          TargetPath: 'app-backend/ECommerce.Database/bin/Release'
+          ArtifactName: database_artifact
+      
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          artifactName: database_artifact
+          targetPath: '$(Pipeline.Workspace)/DBdacpac'
