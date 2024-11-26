@@ -4,7 +4,7 @@ trigger:
 stages:
 - stage: build
   pool: 
-    vmImage: 'ubuntu-latest'
+    vmImage: 'windows-latest'
   jobs:
   - job: build_job
     steps:
@@ -35,10 +35,10 @@ stages:
     steps:
       - task: PublishBuildArtifacts@1
         inputs:
-          TargetPath: 'app-backend/ECommerce.Database/bin/Release'
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: database_artifact
       
       - task: DownloadPipelineArtifact@2
         inputs:
-          artifactName: database_artifact
+          ArtifactName: database_artifact
           targetPath: '$(Pipeline.Workspace)/DBdacpac'
