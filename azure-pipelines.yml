@@ -32,6 +32,7 @@ stages:
           configuration: 'Release'
 
   - job: publish
+    dependsOn: build_job
     steps:
       - task: PublishBuildArtifacts@1
         inputs:
