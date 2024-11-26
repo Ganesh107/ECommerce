@@ -31,6 +31,12 @@ stages:
           platform: 'Any CPU' 
           configuration: 'Release'
 
+       # Copy necessary files to the artifact staging directory
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(Build.SourcesDirectory)/app-backend/ECommerce.Database/output' 
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
   - job: publish
     dependsOn: build_job
     steps:
