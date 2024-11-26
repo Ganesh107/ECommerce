@@ -7,7 +7,7 @@ stages:
     vmImage: 'windows-latest'
   jobs:
   - job: build_job
-    steps:
+    #steps:
       # Restore dependencies
       # - task: DotNetCoreCLI@2
       #   inputs:
@@ -24,31 +24,31 @@ stages:
       #       app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
       #       app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
 
-      # Build database projects
-      - task: VSBuild@1
-        inputs:
-          solution: app-backend/ECommerce.Database/ECommerce.Database.sqlproj
-          platform: 'Any CPU' 
-          configuration: 'Release'
-
-       # Copy necessary files to the artifact staging directory
-      - task: CopyFiles@2
-        inputs:
-          SourceFolder: '$(Build.SourcesDirectory)/app-backend/ECommerce.Database/bin/Output' 
-          TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
+      
+    # Build database projects
   - job: publish
     dependsOn: build_job
     steps:
-      # Publish the build artifact
-      - task: PublishBuildArtifacts@1
-        inputs:
-          PathToPublish: '$(Build.ArtifactStagingDirectory)'  
-          ArtifactName: 'database_artifact'
-          publishLocation: 'Container'
+    - task: VSBuild@1
+      inputs:
+        solution: app-backend/ECommerce.Database/ECommerce.Database.sqlproj
+        platform: 'Any CPU' 
+        configuration: 'Release'
 
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          buildType: 'current'
-          artifactName: 'database_artifact'
-          targetPath: '$(Pipeline.Workspace)'
+       # Copy necessary files to the artifact staging directory
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/app-backend/ECommerce.Database/bin/Output' 
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    # Publish the build artifact
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathToPublish: '$(Build.ArtifactStagingDirectory)'  
+        ArtifactName: 'database_artifact'
+        publishLocation: 'Container'
+
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        artifactName: 'database_artifact'
+        targetPath: '$(Pipeline.Workspace)'
