@@ -40,13 +40,15 @@ stages:
   - job: publish
     dependsOn: build_job
     steps:
+      # Publish the build artifact
       - task: PublishBuildArtifacts@1
         inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: database_artifact
-      
+          PathToPublish: '$(Build.ArtifactStagingDirectory)'  
+          ArtifactName: 'database_artifact'
+          publishLocation: 'Container'
+
       - task: DownloadPipelineArtifact@2
         inputs:
           buildType: 'current'
-          ArtifactName: database_artifact
+          artifactName: 'database_artifact'
           targetPath: '$(Pipeline.Workspace)'
