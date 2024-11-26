@@ -6,26 +6,27 @@ stages:
   pool: 
     vmImage: 'windows-latest'
   jobs:
+    # Build and publish backend projects
   - job: build_job
-    #steps:
+    steps:
       # Restore dependencies
-      # - task: DotNetCoreCLI@2
-      #   inputs:
-      #     command: 'restore'
-      #     projects: |
-      #       app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
-      #       app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'restore'
+          projects: |
+            app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
+            app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
      
       # # Build projects
-      # - task: DotNetCoreCLI@2
-      #   inputs:
-      #     command: 'build'
-      #     projects: |
-      #       app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
-      #       app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'build'
+          projects: |
+            app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
+            app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
 
       
-    # Build database projects
+    # Build and publish database projects
   - job: publish
     dependsOn: build_job
     steps:
