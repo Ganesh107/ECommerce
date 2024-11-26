@@ -34,7 +34,7 @@ stages:
        # Copy necessary files to the artifact staging directory
       - task: CopyFiles@2
         inputs:
-          SourceFolder: '$(Build.SourcesDirectory)/app-backend/ECommerce.Database/output' 
+          SourceFolder: '$(Build.SourcesDirectory)/app-backend/ECommerce.Database/bin/Output' 
           TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
   - job: publish
