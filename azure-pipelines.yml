@@ -41,5 +41,6 @@ stages:
       
       - task: DownloadPipelineArtifact@2
         inputs:
+          buildType: 'current'
           ArtifactName: database_artifact
-          targetPath: '$(Pipeline.Workspace)/DBdacpac'
+          targetPath: '$(Pipeline.Workspace)'
