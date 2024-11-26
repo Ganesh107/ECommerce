@@ -1,7 +1,7 @@
 ﻿using ECommerce.Product.Service.Model.User;
 using Microsoft.EntityFrameworkCore;
 
-namespace ECommerce.User.Service.UserContext
+namespace ECommerce.Product.Service.ProductContext
 {
     public class ProductDbContext : DbContext
     {
