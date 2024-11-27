@@ -17,7 +17,7 @@ stages:
             app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
             app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
      
-      # # Build projects
+      # Build projects
       - task: DotNetCoreCLI@2
         inputs:
           command: 'build'
@@ -25,10 +25,8 @@ stages:
             app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
             app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
 
-      
     # Build and publish database projects
   - job: publish
-    dependsOn: build_job
     steps:
     - task: VSBuild@1
       inputs:
@@ -36,11 +34,12 @@ stages:
         platform: 'Any CPU' 
         configuration: 'Release'
 
-       # Copy necessary files to the artifact staging directory
+    # Copy necessary files to the artifact staging directory
     - task: CopyFiles@2
       inputs:
         SourceFolder: '$(Build.SourcesDirectory)/app-backend/ECommerce.Database/bin/Output' 
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
     # Publish the build artifact
     - task: PublishBuildArtifacts@1
       inputs:
@@ -52,4 +51,4 @@ stages:
       inputs:
         buildType: 'current'
         artifactName: 'database_artifact'
-        targetPath: '$(Pipeline.Workspace)'
+        targetPath: '$(Pipeline.Workspace)/dacpac'
