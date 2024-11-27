@@ -71,4 +71,4 @@ stages:
                   DatabaseName: 'ECommerce_Product'
                   SqlUsername: $(userName)
                   SqlPassword: $(password)
-                  DacpacFile: '$(Pipeline.Workspace)/dacpac/ECommerce.Database.dacpac'
+                  DacpacFile: '$(Pipeline.Workspace)/database_artifact/ECommerce.Database.dacpac'
