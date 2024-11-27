@@ -2,58 +2,57 @@ trigger:
 - none
 
 stages:
-# - stage: build
-#   pool: 
-#     vmImage: 'windows-latest'
-#   jobs:
-#     # Build and publish backend projects
-#   - job: build_job
-#     steps:
-#       # Restore dependencies
-#       - task: DotNetCoreCLI@2
-#         inputs:
-#           command: 'restore'
-#           projects: |
-#             app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
-#             app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
+- stage: build
+  pool: 
+    vmImage: 'windows-latest'
+  jobs:
+    # Build and publish backend projects
+  - job: build_job
+    #steps:
+      # # Restore dependencies
+      # - task: DotNetCoreCLI@2
+      #   inputs:
+      #     command: 'restore'
+      #     projects: |
+      #       app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
+      #       app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
      
-#       # Build projects
-#       - task: DotNetCoreCLI@2
-#         inputs:
-#           command: 'build'
-#           projects: |
-#             app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
-#             app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
+      # # Build projects
+      # - task: DotNetCoreCLI@2
+      #   inputs:
+      #     command: 'build'
+      #     projects: |
+      #       app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
+      #       app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
 
-#     # Build and publish database projects
-#   - job: publish
-#     steps:
-#     - task: VSBuild@1
-#       inputs:
-#         solution: app-backend/ECommerce.Database/ECommerce.Database.sqlproj
-#         platform: 'Any CPU' 
-#         configuration: 'Release'
+    # Build and publish database projects
+  - job: publish
+    steps:
+    - task: VSBuild@1
+      inputs:
+        solution: app-backend/ECommerce.Database/ECommerce.Database.sqlproj
+        platform: 'Any CPU' 
+        configuration: 'Release'
 
-#     # Copy necessary files to the artifact staging directory
-#     - task: CopyFiles@2
-#       inputs:
-#         SourceFolder: '$(Build.SourcesDirectory)/app-backend/ECommerce.Database/bin/Output' 
-#         TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    # Copy necessary files to the artifact staging directory
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/app-backend/ECommerce.Database/bin/Output' 
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-#     # Publish the build artifact
-#     - task: PublishBuildArtifacts@1
-#       inputs:
-#         PathToPublish: '$(Build.ArtifactStagingDirectory)'  
-#         ArtifactName: 'database_artifact'
-#         publishLocation: 'Container'
+    # Publish the build artifact
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathToPublish: '$(Build.ArtifactStagingDirectory)'  
+        ArtifactName: 'database_artifact'
+        publishLocation: 'Container'
 
-#     - task: DownloadPipelineArtifact@2
-#       inputs:
-#         buildType: 'current'
-#         artifactName: 'database_artifact'
-#         targetPath: '$(Pipeline.Workspace)/dacpac'
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        artifactName: 'database_artifact'
+        targetPath: '$(Pipeline.Workspace)/dacpac'
 
-# Deploy to dev env
 - stage: deploy
   jobs:
     - deployment: deploy_database
