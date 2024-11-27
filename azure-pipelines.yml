@@ -58,7 +58,7 @@ stages:
   jobs:
     - deployment: deploy_database
       pool:
-        vmImage: 'ubuntu-latest' 
+        vmImage: 'windows-latest' 
       environment: dev
       strategy: 
         runOnce:
