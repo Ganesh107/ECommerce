@@ -74,6 +74,4 @@ stages:
                   DatabaseName: 'master'
                   SqlUsername: $(userName)
                   SqlPassword: $(password)
-                  DacpacFile: '$(Pipeline.Workspace)/database_artifact/ECommerce.Database.dacpac'
-                  AdditionalArguments: "/p:AllowDatabaseCreation=True"
- 
+                  DacpacFile: '$(Pipeline.Workspace)/database_artifact/ECommerce.Database.dacpac' 
