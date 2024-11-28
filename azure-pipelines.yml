@@ -67,8 +67,9 @@ stages:
         runOnce:
           deploy:
             steps:
-              - task: SqlDacpacDeploymentOnMachineGroup@0
+              - task: SqlAzureDacpacDeployment@1
                 inputs:
+                  azureSubscription: AzureConnection
                   ServerName: $(Server)
                   DatabaseName: 'master'
                   SqlUsername: $(userName)
