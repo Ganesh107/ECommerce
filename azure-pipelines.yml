@@ -59,7 +59,10 @@ stages:
     - deployment: deploy_database
       pool:
         vmImage: 'windows-latest' 
-      environment: dev
+      environment: 
+        name: 'dev'
+        resourceName: ECommerceVM
+        resourceType: virtualMachine
       strategy: 
         runOnce:
           deploy:
