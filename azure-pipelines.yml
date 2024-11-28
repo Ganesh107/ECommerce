@@ -67,7 +67,7 @@ stages:
                 inputs:
                   azureSubscription: AzureConnection
                   ServerName: $(Server)
-                  DatabaseName: 'ECommerce_Product'
+                  DatabaseName: 'master'
                   SqlUsername: $(userName)
                   SqlPassword: $(password)
                   DacpacFile: '$(Pipeline.Workspace)/database_artifact/ECommerce.Database.dacpac'
