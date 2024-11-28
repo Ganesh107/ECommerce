@@ -54,6 +54,7 @@ stages:
         targetPath: '$(Pipeline.Workspace)/dacpac'
 
 - stage: deploy
+  dependsOn: build
   jobs:
     - deployment: deploy_database
       pool:
