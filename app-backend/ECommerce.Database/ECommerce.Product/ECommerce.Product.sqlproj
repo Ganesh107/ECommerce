@@ -3,16 +3,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>ECommerce.Database</Name>
+    <Name>ECommerce.Product</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{bf2fc629-a19b-4e5d-95e1-5b1f55543e7c}</ProjectGuid>
+    <ProjectGuid>{8cf1caf6-d836-42b2-9a84-c00891f8c835}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
-    <RootNamespace>ECommerce.Database</RootNamespace>
-    <AssemblyName>ECommerce.Database</AssemblyName>
+    <RootNamespace>ECommerce.Product</RootNamespace>
+    <AssemblyName>ECommerce.Product</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>

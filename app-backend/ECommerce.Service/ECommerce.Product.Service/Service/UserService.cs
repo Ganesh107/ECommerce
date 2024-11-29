@@ -1,5 +1,5 @@
 ﻿using ECommerce.Product.Service.Model.User;
-using ECommerce.User.Service.UserContext;
+using ECommerce.Product.Service.ProductContext;
 using System.Security.Cryptography;
 using Konscious.Security.Cryptography;
 using System.Text;
@@ -31,7 +31,7 @@ namespace ECommerce.Product.Service.Service
             {
                 throw new Exception("User already registered!");
             }   
-
+           
             // Assign unique id and created date
             user.UserId = Guid.NewGuid();
             user.CreatedDate = DateTime.Now;
@@ -54,12 +54,12 @@ namespace ECommerce.Product.Service.Service
         /// </summary>
         /// <param name="user"></param>
         /// <param name="traceLog"></param>
-        private void Hashpassword(UserModel user, StringBuilder traceLog)
+        private static void Hashpassword(UserModel user, StringBuilder traceLog)
         {
             traceLog.Append("Hashpassword method started in user Service ###.");
             byte[] salt = RandomNumberGenerator.GetBytes(32);
             user.Salt = salt;
-            Argon2id argon2 = new Argon2id(Encoding.UTF8.GetBytes(user.Password ?? string.Empty))
+            Argon2id argon2 = new (Encoding.UTF8.GetBytes(user.Password ?? string.Empty))
             {
                 Salt = salt,
                 Iterations = ProductConstants.Iterations,
@@ -76,7 +76,7 @@ namespace ECommerce.Product.Service.Service
         /// <param name="user"></param>
         /// <param name="traceLog"></param>
         /// <exception cref="ArgumentException"></exception>
-        private void ValidateUserModel(UserModel user, StringBuilder traceLog)
+        private static void ValidateUserModel(UserModel user, StringBuilder traceLog)
         {
             traceLog.Append("ValidateUserModel method started in user Service ###.");
             StringBuilder errorLog = new();
@@ -90,14 +90,13 @@ namespace ECommerce.Product.Service.Service
                 : Helper.GetDescription(ProductConstants.ValidateUserModel.Password)).AppendLine();
 
             string errorMessage = string.Join(",", errorLog.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries));
-            if (errorLog.Length > 0)
+            if(!string.IsNullOrEmpty(errorMessage))
             {
                 throw new ArgumentException(string.Format(ProductConstants.MandatoryFieldMissError, errorMessage));
             }
 
             traceLog.Append("Exit from ValidateUserModel method started in user service ###.");
         }
-
         #endregion
     }
 }

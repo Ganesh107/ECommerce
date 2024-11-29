@@ -1,12 +1,11 @@
 
-using ECommerce.Product.Service.Model;
 using ECommerce.Product.Service.Service;
-using ECommerce.User.Service.UserContext;
+using ECommerce.Product.Service.ProductContext;
 using ECommerce.User.Service.Utility;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
-namespace ECommerce.User.Service
+namespace ECommerce.Product.Service
 {
     public class Program
     {
