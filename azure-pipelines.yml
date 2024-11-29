@@ -30,14 +30,14 @@ stages:
     steps:
     - task: VSBuild@1
       inputs:
-        solution: app-backend/ECommerce.Database/ECommerce.Database.sqlproj
+        solution: app-backend/ECommerce.Database/ECommerce.Product/ECommerce.Product.sqlproj
         platform: 'Any CPU' 
         configuration: 'Release'
 
     # Copy necessary files to the artifact staging directory
     - task: CopyFiles@2
       inputs:
-        SourceFolder: '$(Build.SourcesDirectory)/app-backend/ECommerce.Database/bin/Output' 
+        SourceFolder: '$(Build.SourcesDirectory)/app-backend/ECommerce.Database/ECommerce.Product/bin/Output' 
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     # Publish the build artifact
@@ -45,7 +45,6 @@ stages:
       inputs:
         PathToPublish: '$(Build.ArtifactStagingDirectory)'  
         ArtifactName: 'database_artifact'
-        publishLocation: 'Container'
 
     - task: DownloadPipelineArtifact@2
       inputs:
