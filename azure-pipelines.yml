@@ -57,8 +57,12 @@ stages:
   dependsOn: build
   jobs:
   - deployment: DeployDacpac
+    pool:
+      vmImage: 'windows-latest'
     environment: 
       name: dev
+      resourceName: ECommerceVM
+      resourceType: VirtualMachine
     strategy:
       runOnce:
         deploy:
