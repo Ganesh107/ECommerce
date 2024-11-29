@@ -80,5 +80,5 @@ stages:
                   /TargetServerName:$serverName `
                   /TargetDatabaseName:$databaseName `
                   /TargetUser:$username `
-                  /TargetPassword:$password
-            displayName: "Deploy DACPAC to SQL Server"
+                  /TargetPassword:$password `
+                  /TargetTrustServerCertificate:True
