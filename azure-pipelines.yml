@@ -53,25 +53,23 @@ stages:
         artifactName: 'database_artifact'
         targetPath: '$(Pipeline.Workspace)/dacpac'
 
-- stage: deploy
+- stage: Deploy
+  displayName: "Deployment Stage"
   dependsOn: build
   jobs:
-    - deployment: deploy_database
-      pool:
-        vmImage: 'windows-latest' 
-      environment: 
-        name: 'dev'
-        resourceName: ECommerceVM
-        resourceType: virtualMachine
-      strategy: 
-        runOnce:
-          deploy:
-            steps:
-              - task: SqlAzureDacpacDeployment@1
-                inputs:
-                  azureSubscription: AzureConnection
-                  ServerName: $(Server)
-                  DatabaseName: 'master'
-                  SqlUsername: $(userName)
-                  SqlPassword: $(password)
-                  DacpacFile: '$(Pipeline.Workspace)/database_artifact/ECommerce.Database.dacpac' 
+  - deployment: DeployDacpac
+    environment: 
+      name: dev
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - powershell: |
+              $dacpacPath = '$(Pipeline.Workspace)/database_artifact/ECommerce.Database.dacpac'
+              $sqlPackagePath = "C:\Program Files\Microsoft SQL Server\160\DAC\bin\SqlPackage.exe"
+              $serverName = '$(server)'
+              $databaseName = 'master'
+              $username = '$(userName)'
+              $password = '$(password)'
+
+              & "$($sqlPackagePath)" /Action:Publish /SourceFile:$dacpacPath /TargetServerName:$serverName /TargetDatabaseName:$databaseName /TargetUser:$username /TargetPassword:$password
