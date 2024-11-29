@@ -3,5 +3,10 @@
     public class ConfigurationItem
     {
         public string? UserConnectionString { get; set; }
+        public string? KeyVaultUri { get; set; }
+        public string? JwtKeyName { get; set; }
+        public string? Issuer {  get; set; }
+        public string? Audience { get; set; }
+        public int TokenExpiryTime { get; set; }
     }
 }
