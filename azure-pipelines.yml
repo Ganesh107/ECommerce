@@ -71,12 +71,14 @@ stages:
               $dacpacPath = '$(Pipeline.Workspace)/database_artifact/ECommerce.Database.dacpac'
               $sqlPackagePath = "C:\Program Files\Microsoft SQL Server\160\DAC\bin\SqlPackage.exe"
               $serverName = '$(server)'
+              $db = 'ECommerce_Product'
               $username = '$(userName)'
               $password = '$(password)'
 
               & "$sqlPackagePath" /Action:Publish `
                   /SourceFile:$dacpacPath `
                   /TargetServerName:$serverName `
+                  /TargetDatabaseName:$db `
                   /TargetUser:$username `
                   /TargetPassword:$password `
                   /TargetTrustServerCertificate:True
