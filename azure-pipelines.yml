@@ -77,7 +77,6 @@ stages:
               & "$sqlPackagePath" /Action:Publish `
                   /SourceFile:$dacpacPath `
                   /TargetServerName:$serverName `
-                  /TargetDatabaseName:$databaseName `
                   /TargetUser:$username `
                   /TargetPassword:$password `
                   /TargetTrustServerCertificate:True
