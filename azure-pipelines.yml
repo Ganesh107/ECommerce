@@ -7,23 +7,25 @@ stages:
     vmImage: 'windows-latest'
   jobs:
     # Build and publish backend projects
-  - job: build_job
-    #steps:
-      # # Restore dependencies
-      # - task: DotNetCoreCLI@2
-      #   inputs:
-      #     command: 'restore'
-      #     projects: |
-      #       app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
-      #       app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
+  # - job: build_job
+  #   steps:
+  #     # Restore dependencies
+  #     - task: DotNetCoreCLI@2
+  #       inputs:
+  #         command: 'restore'
+  #         configuration: 'release'
+  #         projects: |
+  #           app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
+  #           app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
      
-      # # Build projects
-      # - task: DotNetCoreCLI@2
-      #   inputs:
-      #     command: 'build'
-      #     projects: |
-      #       app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
-      #       app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
+  #     # Build projects
+  #     - task: DotNetCoreCLI@2
+  #       inputs:
+  #         command: 'build'
+  #         configuration: 'release'
+  #         projects: |
+  #           app-backend/ECommerce.Service/ECommerce.Product.Service/ECommerce.Product.Service.csproj 
+  #           app-backend/ECommerce.Service/ECommerce.Auth.Service/ECommerce.Auth.Service.csproj
 
     # Build and publish database projects
   - job: publish
@@ -56,8 +58,6 @@ stages:
   dependsOn: build
   jobs:
   - deployment: DeployDacpac
-    pool:
-      vmImage: 'windows-latest'
     environment: 
       name: dev
       resourceName: ECommerceVM
