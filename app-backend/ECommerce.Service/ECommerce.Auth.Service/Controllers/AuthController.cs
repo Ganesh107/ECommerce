@@ -1,6 +1,7 @@
 ﻿using ECommerce.Auth.Service.Model;
 using ECommerce.Auth.Service.Service;
 using ECommerce.Auth.Service.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
@@ -26,6 +27,38 @@ namespace ECommerce.Auth.Service.Controllers
             try
             {
                 response.Data = authService.AuthorizeUser(authRequest, traceLog);
+                Helper.SetCookies(Response, response.Data.RefreshToken);
+                response.StatusCode = 200;
+            }
+            catch (Exception exception)
+            {
+                response.StatusCode = 500;
+                response.Exception = exception.Message;
+            }
+            traceLog.Append("Exit from AuthorizeUser method in AuthorizeUser controller");
+            return response;
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("TestAccess")]
+        public ActionResult Test()
+        {
+            return Ok();
+        }
+
+        [Authorize]
+        [Route("RefreshToken")]
+        [HttpPost]
+        public HttpSingleReponseItem<AuthResponse> RefreshToken(AuthResponse authRequest)
+        {
+            HttpSingleReponseItem<AuthResponse> response = new();
+            StringBuilder traceLog = new();
+            traceLog.Append("Started AuthorizeUser method in AuthorizeUser controller");
+            try
+            {
+                response.Data = authService.RefreshToken(authRequest, Request, traceLog);
+                Helper.SetCookies(Response, response.Data.RefreshToken);
                 response.StatusCode = 200;
             }
             catch (Exception exception)

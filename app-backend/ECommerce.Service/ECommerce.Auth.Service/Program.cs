@@ -2,6 +2,7 @@
 using ECommerce.Auth.Service.AuthDbContext;
 using ECommerce.Auth.Service.Service;
 using ECommerce.Auth.Service.Utility;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Auth.Service
@@ -19,6 +20,26 @@ namespace ECommerce.Auth.Service
             builder.Services.Configure<ConfigurationItem>(builder.Configuration.GetSection("ConfigurationItem"));
 
             builder.Services.AddControllers();
+
+            // Configure authentication scheme
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configItem.Issuer,
+                    ValidAudience = configItem.Audience,
+                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configItem.JwtKey!))
+                };
+            });
 
             // Context
             builder.Services.AddDbContext<AuthContext>(options =>
@@ -39,10 +60,13 @@ namespace ECommerce.Auth.Service
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseCookiePolicy();
 
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.MapControllers();
 

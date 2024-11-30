@@ -1,6 +1,4 @@
-﻿using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
-using ECommerce.Auth.Service.AuthDbContext;
+﻿using ECommerce.Auth.Service.AuthDbContext;
 using ECommerce.Auth.Service.Model;
 using ECommerce.Auth.Service.Utility;
 using Konscious.Security.Cryptography;
@@ -40,8 +38,9 @@ namespace ECommerce.Auth.Service.Service
             AuthResponse authResponse = new();
 
             // Validate user
-            var user = authContext.Users.AsNoTracking().SingleOrDefault(u => u.Email!.Equals(authRequest.Email)
-            || u.PhoneNumber!.Equals(authRequest.PhoneNumber)) ?? throw new Exception("User does not exist");
+            var user = authContext.Users.AsNoTracking().SingleOrDefault(u => u.Email!.Equals(authRequest.Email) 
+                       || u.PhoneNumber!.Equals(authRequest.PhoneNumber)) 
+                       ?? throw new Exception("User does not exist");
 
             // Verify credentials
             byte[] hash = GenerateHash(authRequest, user ?? new(), traceLog);
@@ -50,18 +49,37 @@ namespace ECommerce.Auth.Service.Service
                 throw new Exception("Invalid Credentials");
             }
 
-            // Set claims
-            Claim[] claims = [
-                new(JwtRegisteredClaimNames.Sub, user?.Name ?? string.Empty),
-                new(JwtRegisteredClaimNames.UniqueName, user?.Email ?? string.Empty),
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            ];
-
             // Create access and refresh token
-            authResponse.AccessToken = CreateAccessToken(claims, traceLog);
-            authResponse.RefreshToken = Guid.NewGuid().ToString();
+            authResponse.AccessToken = CreateAccessToken(user, traceLog);
+            authResponse.RefreshToken = GenerateRefreshToken();
 
             traceLog.Append("Exit from AuthorizeUser method in auth service ###.");
+            return authResponse;
+        }
+
+        /// <summary>
+        /// Refresh Token
+        /// </summary>
+        /// <param name="authRequest"></param>
+        /// <param name="traceLog"></param>
+        /// <returns></returns>
+        public AuthResponse RefreshToken(AuthResponse authRequest, HttpRequest httpRequest, StringBuilder traceLog)
+        {
+            traceLog.Append("Started RefreshToken method in auth service ###.");
+            AuthResponse authResponse = new();
+            AuthRequest request = new();
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken =  handler.ReadJwtToken(authRequest.AccessToken) as JwtSecurityToken;
+
+            // Read claims from access token
+            request.Name = jsonToken?.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
+            request.Email = jsonToken?.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.UniqueName)?.Value;
+
+            // Issue new access token and refresh token
+            authResponse.AccessToken = CreateAccessToken(request, traceLog);
+            authResponse.RefreshToken = GenerateRefreshToken();
+
+            traceLog.Append("Exit from RefreshToken method in auth service ###.");
             return authResponse;
         }
         #endregion
@@ -70,21 +88,21 @@ namespace ECommerce.Auth.Service.Service
         /// <summary>
         /// Create Access Token
         /// </summary>
-        /// <param name="claims"></param>
+        /// <param name="user"></param>
         /// <param name="traceLog"></param>
         /// <returns></returns>
-        private string CreateAccessToken(Claim[] claims, StringBuilder traceLog)
+        private string CreateAccessToken(AuthRequest? user, StringBuilder traceLog)
         {
             traceLog.Append("Started CreateAccessToken method in auth service ###.");
-
-            // Fetch jwt key from azure key vault
-            var client = new SecretClient(new(configItem.KeyVaultUri!), new DefaultAzureCredential());
-            var fetchSecret = Task.Run(() => client.GetSecret(configItem.JwtKeyName));
-            fetchSecret.Wait();
-            string jwtSecret = fetchSecret.Result.Value.Value;
+            // Set claims
+            Claim[] claims = [
+                new(JwtRegisteredClaimNames.Sub, user?.Name ?? string.Empty),
+                new(JwtRegisteredClaimNames.UniqueName, user?.Email ?? string.Empty),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            ];
 
             // Token configuration
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configItem.JwtKey!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var accessToken = new JwtSecurityToken(
                issuer: configItem.Issuer,
@@ -97,6 +115,13 @@ namespace ECommerce.Auth.Service.Service
             traceLog.Append("Exit from CreateAccessToken method in auth service ###.");
             return new JwtSecurityTokenHandler().WriteToken(accessToken);
         }
+
+        /// <summary>
+        /// Generate Refresh Token
+        /// </summary>
+        /// <returns></returns>
+        private static string GenerateRefreshToken() 
+            => Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
 
         /// <summary>
         /// Generate Hash
