@@ -47,7 +47,6 @@ namespace ECommerce.Auth.Service.Controllers
             return Ok();
         }
 
-        [Authorize]
         [Route("RefreshToken")]
         [HttpPost]
         public HttpSingleReponseItem<AuthResponse> RefreshToken(AuthResponse authRequest)
@@ -63,7 +62,7 @@ namespace ECommerce.Auth.Service.Controllers
             }
             catch (Exception exception)
             {
-                response.StatusCode = 500;
+                response.StatusCode = exception is UnauthorizedAccessException ? 401 : 500;
                 response.Exception = exception.Message;
             }
             traceLog.Append("Exit from AuthorizeUser method in AuthorizeUser controller");

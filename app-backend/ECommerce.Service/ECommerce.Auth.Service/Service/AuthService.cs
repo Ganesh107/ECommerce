@@ -65,7 +65,12 @@ namespace ECommerce.Auth.Service.Service
         /// <returns></returns>
         public AuthResponse RefreshToken(AuthResponse authRequest, HttpRequest httpRequest, StringBuilder traceLog)
         {
-            traceLog.Append("Started RefreshToken method in auth service ###.");
+            traceLog.Append("Started RefreshToken method in auth service ###.");   
+            if (string.IsNullOrEmpty(Helper.GetRefreshTokenFromCookies(httpRequest)))
+            {
+                throw new UnauthorizedAccessException("Unauthorized! please login again..");
+            }
+
             AuthResponse authResponse = new();
             AuthRequest request = new();
             var handler = new JwtSecurityTokenHandler();

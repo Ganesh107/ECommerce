@@ -47,5 +47,19 @@ namespace ECommerce.Auth.Service.Utility
                 SameSite = SameSiteMode.Strict
             });
         }
+
+        /// <summary>
+        /// Get Refresh Token From Cookies
+        /// </summary>
+        /// <param name="httpRequest"></param>
+        /// <returns></returns>
+        public static string? GetRefreshTokenFromCookies(HttpRequest httpRequest)
+        {
+            if (httpRequest.Cookies.TryGetValue("RefreshToken", out string? token))
+            {
+                return token;
+            }
+            return string.Empty;    
+        }
     }
 }
