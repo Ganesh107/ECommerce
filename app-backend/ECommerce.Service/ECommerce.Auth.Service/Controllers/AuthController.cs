@@ -17,6 +17,11 @@ namespace ECommerce.Auth.Service.Controllers
             authService = _authService;
         }
 
+        /// <summary>
+        /// Authorize User
+        /// </summary>
+        /// <param name="authRequest"></param>
+        /// <returns></returns>
         [Route("AuthorizeUser")]
         [HttpPost]
         public HttpSingleReponseItem<AuthResponse> AuthorizeUser(AuthRequest authRequest)
@@ -39,14 +44,11 @@ namespace ECommerce.Auth.Service.Controllers
             return response;
         }
 
-        [HttpPost]
-        //[Authorize(Policy = "AuthPolicy")]
-        [Route("TestAccess")]
-        public ActionResult Test()
-        {
-            return Ok();
-        }
-
+        /// <summary>
+        /// Refresh Token
+        /// </summary>
+        /// <param name="authRequest"></param>
+        /// <returns></returns>
         [Route("RefreshToken")]
         [HttpPost]
         public HttpSingleReponseItem<AuthResponse> RefreshToken(AuthResponse authRequest)
