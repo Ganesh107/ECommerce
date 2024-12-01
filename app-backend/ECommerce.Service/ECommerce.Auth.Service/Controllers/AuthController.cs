@@ -40,7 +40,7 @@ namespace ECommerce.Auth.Service.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize(Policy = "AuthPolicy")]
         [Route("TestAccess")]
         public ActionResult Test()
         {

@@ -21,26 +21,6 @@ namespace ECommerce.Auth.Service
 
             builder.Services.AddControllers();
 
-            // Configure authentication scheme
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = configItem.Issuer,
-                    ValidAudience = configItem.Audience,
-                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configItem.JwtKey!))
-                };
-            });
-
             // Context
             builder.Services.AddDbContext<AuthContext>(options =>
                 options.UseSqlServer(configItem.UserConnectionString));
@@ -60,13 +40,10 @@ namespace ECommerce.Auth.Service
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
             app.UseCookiePolicy();
 
             app.UseHttpsRedirection();
-
-            app.UseAuthentication();
-
-            app.UseAuthorization();
 
             app.MapControllers();
 

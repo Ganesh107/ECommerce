@@ -44,7 +44,8 @@ namespace ECommerce.Auth.Service.Utility
                 HttpOnly = true,
                 Secure = true,
                 Expires = DateTime.UtcNow.AddHours(1),
-                SameSite = SameSiteMode.Strict
+                SameSite = SameSiteMode.Strict,
+                Path = "/auth"
             });
         }
 
