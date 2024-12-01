@@ -1,6 +1,7 @@
 ﻿using ECommerce.Product.Service.Model.User;
 using ECommerce.Product.Service.Service;
 using ECommerce.Product.Service.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 

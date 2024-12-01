@@ -4,6 +4,11 @@ namespace ECommerce.Auth.Service.Utility
 {
     public static class AuthConstants
     {
+        #region key vault
+        public static readonly string KeyVaultUri = "https://ecommercekeys.vault.azure.net/";
+        public static readonly string secretName = "JwtKey";
+        #endregion
+
         #region User
         // Constants
         public static readonly int Iterations = 3;

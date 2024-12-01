@@ -2,6 +2,7 @@
 using ECommerce.Auth.Service.AuthDbContext;
 using ECommerce.Auth.Service.Service;
 using ECommerce.Auth.Service.Utility;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Auth.Service
@@ -40,9 +41,9 @@ namespace ECommerce.Auth.Service
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            app.UseCookiePolicy();
 
-            app.UseAuthentication();
+            app.UseHttpsRedirection();
 
             app.MapControllers();
 
