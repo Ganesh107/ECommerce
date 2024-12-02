@@ -2,8 +2,7 @@ trigger:
 - none
 variables:
   buildConfiguration: 'Release'
-  backend: 'ECommerceBackend'
-  vmName: 'dev'
+  backend: 'ECommerce_Backend'
   artifactName: 'backend'
   publishFolder: 'publish'
 
@@ -23,12 +22,14 @@ stages:
 
       # Restore dependencies
       - task: DotNetCoreCLI@2
+        displayName: Restore dependencies
         inputs:
           command: 'restore'
           projects: '**/*.csproj'
      
       # Build projects
       - task: DotNetCoreCLI@2
+        displayName: Build Backend Projetcs
         inputs:
           command: 'build'
           configuration: $(buildConfiguration)
@@ -36,6 +37,7 @@ stages:
       
       # Publish projects
       - task: DotNetCoreCLI@2
+        displayName: Publish Backend Projects
         inputs:
           command: 'publish' 
           arguments: '--configuration $(buildConfiguration) --output $(build.ArtifactStagingDirectory)/$(publishFolder)'
@@ -47,57 +49,68 @@ stages:
           pathToPublish: '$(build.ArtifactStagingDirectory)/$(publishFolder)'
           artifactName: '$(artifactName)'
     
-#     # Build and publish database projects
-#   - job: publish
-#     steps:
-#     - task: VSBuild@1
-#       inputs:
-#         solution: app-backend/ECommerce.Database/ECommerce.Product/ECommerce.Product.sqlproj
-#         platform: 'Any CPU' 
-#         configuration: 'Release'
+    # Build and publish database projects
+  - job: publish_Db
+    steps:
+    - task: VSBuild@1
+      displayName: build db projects
+      inputs:
+        solution: '**/*.sqlproj'
+        platform: 'Any CPU' 
+        configuration: 'Release'
 
-#     # Copy necessary files to the artifact staging directory
-#     - task: CopyFiles@2
-#       inputs:
-#         SourceFolder: '$(Build.SourcesDirectory)/app-backend/ECommerce.Database/ECommerce.Product/bin/Output' 
-#         TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    # Copy necessary files to the artifact staging directory
+    - task: CopyFiles@2
+      displayName: Copy dacpac files
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/app-backend/ECommerce.Database/ECommerce.Product/bin/Output' 
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-#     # Publish the build artifact
-#     - task: PublishBuildArtifacts@1
-#       inputs:
-#         PathToPublish: '$(Build.ArtifactStagingDirectory)'  
-#         ArtifactName: 'database_artifact'
+    # Publish the build artifact
+    - task: PublishBuildArtifacts@1
+      displayName: Publish db artifacts
+      inputs:
+        PathToPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'database_artifact'
 
-#     - task: DownloadPipelineArtifact@2
-#       inputs:
-#         buildType: 'current'
-#         artifactName: 'database_artifact'
-#         targetPath: '$(Pipeline.Workspace)/dacpac'
+    - task: DownloadPipelineArtifact@2
+      displayName: Download db artifacts
+      inputs:
+        buildType: 'current'
+        artifactName: 'database_artifact'
+        targetPath: '$(Pipeline.Workspace)/dacpac'
 
-# - stage: Deploy
-#   dependsOn: build
-#   jobs:
-#   - deployment: DeployDacpac
-#     environment: 
-#       name: dev
-#       resourceName: ECommerceVM
-#       resourceType: VirtualMachine
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
-#           - powershell: |
-#               $dacpacPath = '$(Pipeline.Workspace)/database_artifact/ECommerce.Database.dacpac'
-#               $sqlPackagePath = "C:\Program Files\Microsoft SQL Server\160\DAC\bin\SqlPackage.exe"
-#               $serverName = '$(server)'
-#               $database = 'ECommerce_Product'
-#               $username = '$(userName)'
-#               $password = '$(password)'
+- stage: Deploy
+  dependsOn: build
+  displayName: deploy database
+  jobs:
+  - deployment: DeployDacpac
+    environment: 
+      name: dev
+      resourceName: ECommerceVM
+      resourceType: VirtualMachine
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - powershell: |
+              $dacpacPath = '$(Pipeline.Workspace)/database_artifact/ECommerce.Database.dacpac'
+              $sqlPackagePath = "C:\Program Files\Microsoft SQL Server\160\DAC\bin\SqlPackage.exe"
+              $serverName = '$(server)'
+              $database = 'ECommerce_Product'
+              $username = '$(userName)'
+              $password = '$(password)'
 
-#               & "$sqlPackagePath" /Action:Publish `
-#                   /SourceFile:$dacpacPath `
-#                   /TargetServerName:$serverName `
-#                   /TargetDatabaseName:$database `
-#                   /TargetUser:$username `
-#                   /TargetPassword:$password `
-#                   /TargetTrustServerCertificate:True
+              & "$sqlPackagePath" /Action:Publish `
+                  /SourceFile:$dacpacPath `
+                  /TargetServerName:$serverName `
+                  /TargetDatabaseName:$database `
+                  /TargetUser:$username `
+                  /TargetPassword:$password `
+                  /TargetTrustServerCertificate:True
+
+  # - deployment: Deploy backend
+  #   environment: 
+  #     name: dev
+  #     resourceName: $(vmName)
+  #     resourceType: VirtualMachine
