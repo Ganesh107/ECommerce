@@ -1,5 +1,11 @@
 trigger: 
 - none
+variables:
+  buildConfiguration: 'Release'
+  backend: 'ECommerceBackend'
+  vmName: 'dev'
+  artifactName: 'backend'
+  publishFolder: 'publish'
 
 stages:
 - stage: build
@@ -9,6 +15,12 @@ stages:
     # Build and publish backend projects
   - job: build_job
     steps:
+      - task: UseDotNet@2
+        displayName: 'Install .NET SDK'
+        inputs:
+          packageType: 'sdk'
+          version: '6.x'
+
       # Restore dependencies
       - task: DotNetCoreCLI@2
         inputs:
@@ -19,15 +31,22 @@ stages:
       - task: DotNetCoreCLI@2
         inputs:
           command: 'build'
-          configuration: 'release'
+          configuration: $(buildConfiguration)
           projects: '**/*.csproj'
-
-      # publish projects
-#       - task: CopyFiles@2
-#         inputs:
-#           SourceFolder: 
-#           TargetFolder: 
-
+      
+      # Publish projects
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'publish' 
+          arguments: '--configuration $(buildConfiguration) --output $(build.ArtifactStagingDirectory)/$(publishFolder)'
+          projects: '**/*.csproj'
+      
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Build Artifacts'
+        inputs:
+          pathToPublish: '$(build.ArtifactStagingDirectory)/$(publishFolder)'
+          artifactName: '$(artifactName)'
+    
 #     # Build and publish database projects
 #   - job: publish
 #     steps:
