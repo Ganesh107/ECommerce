@@ -120,8 +120,8 @@ stages:
       runOnce:
         deploy:
           steps:
-            - download: current
-              artifact: $(artifactName)
+            # - download: current
+            #   artifact: $(artifactName)
             # - task: CopyFiles@2
             #   displayName: 'Copy Files To VM'
             #   inputs:
