@@ -95,7 +95,7 @@ stages:
         deploy:
           steps:
           - powershell: |
-              $dacpacPath = '$(Pipeline.Workspace)/database_artifact/ECommerce.Database.dacpac'
+              $dacpacPath = '$(Pipeline.Workspace)/database_artifact/ECommerce.Product.dacpac'
               $sqlPackagePath = "C:\Program Files\Microsoft SQL Server\160\DAC\bin\SqlPackage.exe"
               $serverName = '$(server)'
               $database = 'ECommerce_Product'
