@@ -124,7 +124,7 @@ stages:
               displayName: 'Deploy To IIS'
               inputs:
                 SourcePath: $(Pipeline.Workspace)/$(artifactName)
-                TargetPath: 'C:\\inetpub\\wwwroot\\$(backend)'
+                TargetPath: 'C:\inetpub\wwwroot\$(backend)'
                 CleanTargetBeforeCopy: true
                 MachineNames: 'EComVM'
                 AdminUserName: $(vmUser)
