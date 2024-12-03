@@ -120,16 +120,6 @@ stages:
       runOnce:
         deploy:
           steps:
-            # - download: current
-            #   artifact: $(artifactName)
-            # - task: CopyFiles@2
-            #   displayName: 'Copy Files To VM'
-            #   inputs:
-            #     SourceFolder: $(Pipeline.Workspace)/$(artifactName)
-            #     Contents: '**/*'
-            #     TargetFolder: '\\\\<EComVM>\\c$\\inetpub\\wwwroot\\$(backend)'
-            #     CleanTargetFolder: true
-            #     OverWrite: true
             - task: WindowsMachineFileCopy@2
               displayName: 'Deploy To IIS'
               inputs:
