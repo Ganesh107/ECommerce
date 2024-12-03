@@ -1,5 +1,6 @@
 trigger: 
 - none
+
 variables:
   buildConfiguration: 'Release'
   backend: 'ECommerce_Backend'
@@ -86,8 +87,8 @@ stages:
   jobs:
   - deployment: DeployDacpac
     environment: 
-      name: dev
-      resourceName: ECommerceVM
+      name: EcommerceDev
+      resourceName: EcomVM
       resourceType: VirtualMachine
     strategy:
       runOnce:
@@ -109,8 +110,32 @@ stages:
                   /TargetPassword:$password `
                   /TargetTrustServerCertificate:True
 
-  # - deployment: Deploy backend
-  #   environment: 
-  #     name: dev
-  #     resourceName: $(vmName)
-  #     resourceType: VirtualMachine
+  - deployment: Deploy_backend
+    dependsOn: DeployDacpac
+    environment: 
+      name: EcommerceDev
+      resourceName: EcomVM
+      resourceType: VirtualMachine
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - download: current
+              artifact: $(artifactName)
+            - task: CopyFiles@2
+              displayName: 'Copy Files To VM'
+              inputs:
+                SourceFolder: $(Pipeline.Workspace)/$(artifactName)
+                Contents: '**/*'
+                TargetFolder: '\\\\<EComVM>\\c$\\inetpub\\wwwroot\\$(backend)'
+                CleanTargetFolder: true
+                OverWrite: true
+            - task: WindowsMachineFileCopy@2
+              displayName: 'Deploy To IIS'
+              inputs:
+                SourcePath: $(Pipeline.Workspace)/$(artifactName)
+                TargetPath: 'C:\\inetpub\\wwwroot\\$(backend)'
+                CleanTargetBeforeCopy: true
+                MachineNames: 'EComVM'
+                AdminUserName: $(vmUser)
+                AdminPassword: $(vmPassword)
