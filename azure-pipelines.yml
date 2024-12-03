@@ -83,7 +83,7 @@ stages:
 
 - stage: Deploy
   dependsOn: build
-  displayName: deploy database
+  displayName: deploy backend and db
   jobs:
   - deployment: DeployDacpac
     environment: 
