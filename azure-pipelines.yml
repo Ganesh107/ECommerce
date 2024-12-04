@@ -6,8 +6,6 @@ variables:
   backend: 'ECommerce_Backend'
   artifactName: 'backend'
   publishFolder: 'publish'
-  ConfigurationItem.UserConnectionString: $(ConfigurationItem.UserConnectionString)
-
 
 stages:
 - stage: build
@@ -17,12 +15,6 @@ stages:
     # Build and publish backend projects
   - job: build_job
     steps:
-      - task: UseDotNet@2
-        displayName: 'Install .NET SDK'
-        inputs:
-          packageType: 'sdk'
-          version: '8.x'
-
       # Restore dependencies
       - task: DotNetCoreCLI@2
         displayName: Restore dependencies
