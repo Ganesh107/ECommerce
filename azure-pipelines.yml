@@ -87,6 +87,7 @@ stages:
   displayName: deploy backend and db
   jobs:
   - deployment: DeployDacpac
+    displayName: Deploy database
     environment: 
       name: EcommerceDev
       resourceName: EcomVM
