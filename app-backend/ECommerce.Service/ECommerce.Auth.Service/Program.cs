@@ -23,7 +23,11 @@ namespace ECommerce.Auth.Service
 
             // Context
             builder.Services.AddDbContext<AuthContext>(options =>
-                options.UseSqlServer(configItem.UserConnectionString));
+                options.UseSqlServer(configItem.UserConnectionString, builder =>
+                {
+                    builder.EnableRetryOnFailure(3, TimeSpan.FromSeconds(5), null);
+                    builder.CommandTimeout(30);
+                }));
 
             // Service
             builder.Services.AddScoped<IAuthService, AuthService>();
