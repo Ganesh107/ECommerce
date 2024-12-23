@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { httpPost } from "../../utils/common"
+import { httpPost, isInputMobileNumber } from "../../utils/common"
 
 const initialState = {
     isLoggedIn: false,
@@ -9,6 +9,15 @@ const initialState = {
 
 export const authorizeUser = createAsyncThunk('auth/authorizeUser',
     async (data) => {
+        if(isInputMobileNumber(data.email))
+        {
+            data = {
+                ...data,
+                email: '',
+                phoneNumber: Number(data.email)
+            }
+        }
+
         httpPost(data)
         .then(res => res.json())
         .then(res => res)
