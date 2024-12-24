@@ -19,11 +19,22 @@ namespace ECommerce.Gateway.Service
             builder.Services.AddReverseProxy()
                 .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
-            // Configure authorization policies
+            // Configure authorization policy
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("AuthPolicy", policy =>
-                    policy.RequireAuthenticatedUser());
+                {
+                    policy.RequireAuthenticatedUser();
+                });
+            });
+
+            // Configure CORS Policy
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("ECommerceCorsPolicy", policy =>
+                {
+                    policy.AllowAnyOrigin();
+                });
             });
 
             // Configure authentication scheme
