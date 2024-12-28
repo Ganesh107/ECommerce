@@ -1,1 +1,1 @@
-export const authorizeurl = "https://localhost:7100/api/Auth/AuthorizeUser"
+export const authorizeurl = "https://localhost:7205/api/Auth/AuthorizeUser"

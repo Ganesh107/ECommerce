@@ -18,10 +18,11 @@ export const authorizeUser = createAsyncThunk('auth/authorizeUser',
             }
         }
 
-        httpPost(data)
+        const response =  httpPost(data)
         .then(res => res.json())
         .then(res => res)
         .catch(err => err)
+        return response
     }
 )
 
@@ -35,8 +36,8 @@ const authSlice = createSlice({
         builder.addCase(authorizeUser.pending, (state) => {
             state.status = 'pending'
         })
-        .addCase(authorizeUser.fulfilled, (state, action)=> {
-            if(action.payload.status === 200)
+        builder.addCase(authorizeUser.fulfilled, (state, action)=> {
+            if(action.payload.statusCode === 200)
             {
                 state.status = 'completed'
                 state.isLoggedIn = true
@@ -44,6 +45,7 @@ const authSlice = createSlice({
             }
             else {
                 state.status = 'failed'
+                state.error = action.payload.exception
                 state.isLoggedIn = false
             }
         })

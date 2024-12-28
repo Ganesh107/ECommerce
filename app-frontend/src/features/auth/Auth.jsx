@@ -46,7 +46,8 @@ function Auth() {
       <img src={loginImage} alt='img' className='h-[250px] w-[500px]'/>
       <p className='font-bold text-xl text-slate-600 p-2'>Hala! Let's get started</p>
       <div className="flex flex-col h-[48px]">
-        <input type="text" className="border border-black rounded-md outline-none w-[260px] h-9 p-1 text-xs pl-2" 
+        <input type="text" className="border border-black rounded-md outline-none w-[260px]
+         h-9 p-1 text-xs pl-2" 
         placeholder='Please enter email or mobile number' 
         onChange={e => setInput({...input, email: e.target.value})}/>
         {
