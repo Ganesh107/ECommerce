@@ -18,7 +18,7 @@ export const authorizeUser = createAsyncThunk('auth/authorizeUser',
             }
         }
 
-        const response =  httpPost(data)
+        const response = httpPost(data)
         .then(res => res.json())
         .then(res => res)
         .catch(err => err)
@@ -41,7 +41,7 @@ const authSlice = createSlice({
             {
                 state.status = 'completed'
                 state.isLoggedIn = true
-                localStorage.setItem("accessToken", action.payload.data)
+                localStorage.setItem("accessToken", action.payload.data.accessToken)
             }
             else {
                 state.status = 'failed'

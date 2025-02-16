@@ -33,7 +33,9 @@ namespace ECommerce.Gateway.Service
             {
                 options.AddPolicy("ECommerceCorsPolicy", policy =>
                 {
-                    policy.AllowAnyOrigin();
+                    policy.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
                 });
             });
 
@@ -71,6 +73,8 @@ namespace ECommerce.Gateway.Service
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("ECommerceCorsPolicy");
 
             app.UseHttpsRedirection();
 

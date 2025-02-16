@@ -2,7 +2,7 @@ import ReactDOM from "react-dom";
 import loginImage from '../../assets/images/login.png'
 import { useEffect, useState } from "react";
 import { isInputMobileNumber, validateLoginInput } from "../../utils/common";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authorizeUser } from "./authSlice";
 
 function Auth() {
@@ -11,6 +11,7 @@ function Auth() {
   const [isInputValid, setInputValidity] = useState(true)
   const [isEmail, setIsInputEmail] = useState(true)
   const dispatch = useDispatch()
+  const authState = useSelector(state => state.auth)
 
   useEffect(() => {
     if(input.email === '' || input.password === ''){
@@ -26,9 +27,7 @@ function Auth() {
       setIsInputEmail(false)
     else
       setIsInputEmail(true)
-
   }, [input])
-
 
   const clickHandler = () => {
     if(validateLoginInput(input, isEmail)){
@@ -48,6 +47,7 @@ function Auth() {
       <div className="flex flex-col h-[48px]">
         <input type="text" className="border border-black rounded-md outline-none w-[260px]
          h-9 p-1 text-xs pl-2" 
+        value={input.email}
         placeholder='Please enter email or mobile number' 
         onChange={e => setInput({...input, email: e.target.value})}/>
         {
@@ -60,6 +60,7 @@ function Auth() {
       <input type="password" className="border border-black rounded-md outline-none w-[260px] h-9
        p-1 text-xs pl-2"
        placeholder='Password'
+       value={input.password}
        onChange={e => setInput({...input, password: e.target.value})}/>
 
       <button type="submit" className="flex justify-center items-center mt-4 w-[260px] h-9 p-2
@@ -73,6 +74,7 @@ function Auth() {
       Google <span className="text-blue-600 font-semibold">Privacy Policy</span> and 
       <span className="text-blue-600 font-semibold"> Terms of Service</span> apply.
       </p>
+      <p>{authState.status}</p>
     </div>,
     document.getElementById("modal-root")
   )

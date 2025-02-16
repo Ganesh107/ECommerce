@@ -159,8 +159,8 @@ namespace ECommerce.Auth.Service.Service
         {
             traceLog.Append("ValidateAuthRequest method started in auth Service ###.");
             StringBuilder errorLog = new();
-            errorLog.Append(!string.IsNullOrEmpty(authRequest.Email) && !string.IsNullOrEmpty(authRequest.PhoneNumber) ? string.Empty
-                : Helper.GetDescription(AuthConstants.ValidateUserModel.Email) + "or" + 
+            errorLog.Append(!string.IsNullOrEmpty(authRequest.Email) || !string.IsNullOrEmpty(authRequest.PhoneNumber) ? string.Empty
+                : Helper.GetDescription(AuthConstants.ValidateUserModel.Email) + " or " + 
                 Helper.GetDescription(AuthConstants.ValidateUserModel.PhoneNumber)).AppendLine();
             errorLog.Append(!string.IsNullOrEmpty(authRequest.Password) ? string.Empty
                 : Helper.GetDescription(AuthConstants.ValidateUserModel.Password)).AppendLine();

@@ -29,6 +29,17 @@ namespace ECommerce.Auth.Service
                     builder.CommandTimeout(30);
                 }));
 
+            // Configure CORS Policy
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("ECommerceCorsPolicy", policy =>
+                {
+                    policy.AllowAnyOrigin() 
+                          .AllowAnyMethod()                    
+                          .AllowAnyHeader();
+                });
+            });
+
             // Service
             builder.Services.AddScoped<IAuthService, AuthService>();
 
@@ -44,6 +55,8 @@ namespace ECommerce.Auth.Service
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("ECommerceCorsPolicy");
 
             app.UseCookiePolicy();
 
