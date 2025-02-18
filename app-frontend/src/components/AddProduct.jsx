@@ -3,6 +3,7 @@ import { productModel } from '../utils/productModel'
 
 function AddProduct() {
   const [product, setProduct] = useState(productModel)
+  const[overviewModel, setOverview] = useState(productModel.overViewModel)
   const handleImageUpload = (e) => {
     const files = e.target.files;
     // Convert files as byte stream
@@ -22,6 +23,11 @@ function AddProduct() {
       reader.readAsDataURL(file);
     }
   };
+
+  const SendData = () => {
+    product.overViewModel = overviewModel
+    console.log(product)
+  }
 
   return (
     <div className='flex flex-col gap-3 p-3'> 
@@ -129,6 +135,28 @@ function AddProduct() {
           />
         ))}
       </div>
+      <div className='flex gap-x-3'>
+        <p>Highlights</p>
+        <input value={overviewModel.highLights} 
+          className='border border-black rounded-md outline-none'
+          type='text' placeholder='Size' 
+          onChange={e => setOverview({...overviewModel, highLights: e.target.value})}/>
+      </div>
+      <div className='flex gap-x-3'>
+        <p>Overview</p>
+        <input value={overviewModel.overview} 
+          className='border border-black rounded-md outline-none'
+          type='text' placeholder='Size' 
+          onChange={e => setOverview({...overviewModel, overview: e.target.value})}/>
+      </div>
+      <div className='flex gap-x-3'>
+        <p>Specifications</p>
+        <input value={overviewModel.specifications} 
+          className='border border-black rounded-md outline-none'
+          type='text' placeholder='Size' 
+          onChange={e => setOverview({...overviewModel, specifications: e.target.value})}/>
+      </div>
+      <button onClick={SendData}>Add Product</button>
     </div>
   )
 }
