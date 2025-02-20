@@ -1,6 +1,6 @@
 import { authorizeurl } from "./constants"
 
-export function httpPost(payload){
+export function httpPost(payload, url){
     const jsonPayload = JSON.stringify(payload)
     const metaData = {
         method: "POST",

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { httpPost, isInputMobileNumber } from "../../utils/common"
+import { authorizeurl } from "../../utils/constants"
 
 const initialState = {
     isLoggedIn: false,
@@ -18,7 +19,7 @@ export const authorizeUser = createAsyncThunk('auth/authorizeUser',
             }
         }
 
-        const response = httpPost(data)
+        const response = httpPost(data, authorizeurl)
         .then(res => res.json())
         .then(res => res)
         .catch(err => err)

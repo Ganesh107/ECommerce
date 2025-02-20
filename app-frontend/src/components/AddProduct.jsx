@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { productModel } from '../utils/productModel'
+import { httpPost } from '../utils/common'
 
 function AddProduct() {
   const [product, setProduct] = useState(productModel)
-  const[overviewModel, setOverview] = useState(productModel.overViewModel)
+  const [overviewModel, setOverview] = useState(productModel.overViewModel)
+  const fileInputRef = useRef(null)
+
   const handleImageUpload = (e) => {
     const files = e.target.files;
     // Convert files as byte stream
@@ -25,8 +28,19 @@ function AddProduct() {
   };
 
   const SendData = () => {
-    product.overViewModel = overviewModel
+    product.overViewModel = overviewModel;
     console.log(product)
+    setProduct(productModel)
+    fileInputRef.current.value = null;
+    //httpPost(product, "localhost:7000")
+  }
+
+  const clearFileSelection = () => {
+    fileInputRef.current.value = null;
+    setProduct({
+      ...product,
+      images: []
+    });
   }
 
   return (
@@ -121,6 +135,7 @@ function AddProduct() {
           type='file'
           accept='image/*' 
           multiple
+          ref={fileInputRef}
           onChange={handleImageUpload}
           className='w-full p-2 border rounded'
         />
@@ -134,6 +149,7 @@ function AddProduct() {
             className='w-24 h-24 object-cover border rounded'
           />
         ))}
+        <button className='bg-red-400 w-12' onClick={clearFileSelection}>clear</button>
       </div>
       <div className='flex gap-x-3'>
         <p>Highlights</p>
@@ -156,7 +172,7 @@ function AddProduct() {
           type='text' placeholder='Size' 
           onChange={e => setOverview({...overviewModel, specifications: e.target.value})}/>
       </div>
-      <button onClick={SendData}>Add Product</button>
+      <button className='bg-green-400 w-20' onClick={SendData}>Add Product</button>
     </div>
   )
 }
