@@ -2,6 +2,7 @@
 bin/
 obj/
 .vs/
+secrets/
 
 # Ignore backup and log files
 *.bak

@@ -7,9 +7,11 @@ services:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: qwerty123
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongodb_password
     volumes:
       - mongodb_data:/var/lib/mongodb/data/
+    secrets:
+      - mongodb_password
 
   mongo-express:
     image: mongo-express
@@ -19,11 +21,17 @@ services:
       - "8081:8081"
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: qwerty123
+      ME_CONFIG_MONGODB_ADMINPASSWORD_FILE: /run/secrets/mongodb_password
       ME_CONFIG_MONGODB_SERVER: mongodb
       ME_CONFIG_BASICAUTH: "false"
     depends_on:
       - mongodb
+    secrets:
+      - mongodb_password
 
 volumes:
   mongodb_data:
+
+secrets:
+  mongodb_password: 
+    file: ./secrets/mongodb_password.txt

@@ -24,7 +24,7 @@ namespace ECommerce.Product.Service
             // Context
             builder.Services.AddDbContext<ProductDbContext>(options =>
                 options.UseSqlServer(configItem.UserConnectionString));
-
+           
             // Service
             builder.Services.AddScoped<IUserService, UserService>();
 
