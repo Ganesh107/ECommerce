@@ -44,7 +44,8 @@ const authSlice = createSlice({
                 state.isLoggedIn = true
                 localStorage.setItem("accessToken", action.payload.data.accessToken)
             }
-            else {
+            else 
+            {
                 state.status = 'failed'
                 state.error = action.payload.exception
                 state.isLoggedIn = false

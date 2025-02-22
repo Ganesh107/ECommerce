@@ -40,7 +40,7 @@ function AddProduct() {
     setProduct({
       ...product,
       images: []
-    });
+    });    
   }
 
   return (
