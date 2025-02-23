@@ -74,7 +74,7 @@ namespace ECommerce.Auth.Service.Service
             AuthResponse authResponse = new();
             AuthRequest request = new();
             var handler = new JwtSecurityTokenHandler();
-            var jsonToken =  handler.ReadJwtToken(authRequest.AccessToken) as JwtSecurityToken;
+            var jsonToken =  handler.ReadJwtToken(authRequest.AccessToken);
 
             // Read claims from access token
             request.Name = jsonToken?.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;

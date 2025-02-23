@@ -34,7 +34,7 @@ namespace ECommerce.Product.Service.Service
            
             // Assign unique id and created date
             user.UserId = Guid.NewGuid();
-            user.CreatedDate = DateTime.Now;
+            (user.CreatedBy, user.CreatedDate) = ("System", DateTime.Now);
 
             // Hash the password
             Hashpassword(user, traceLog);

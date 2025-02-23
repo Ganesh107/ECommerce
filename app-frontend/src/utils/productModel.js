@@ -1,5 +1,4 @@
 export const productModel = {
-  _id: "",
   productName: "",
   brand: "",
   modelNumber: "",

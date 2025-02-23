@@ -4,6 +4,7 @@ using ECommerce.Product.Service.ProductContext;
 using ECommerce.User.Service.Utility;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using MongoDB.Driver;
 
 namespace ECommerce.Product.Service
 {
@@ -21,12 +22,19 @@ namespace ECommerce.Product.Service
             
             builder.Services.AddControllers();
 
-            // Context
+            // SQL Server
             builder.Services.AddDbContext<ProductDbContext>(options =>
                 options.UseSqlServer(configItem.UserConnectionString));
-           
+
+            // MongoDB
+            builder.Services.AddScoped<IMongoClient, MongoClient>(options =>
+            {
+                return new MongoClient(configItem.MongoDbConnectionString);
+            });
+
             // Service
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
