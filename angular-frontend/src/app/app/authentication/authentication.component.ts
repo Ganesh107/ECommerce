@@ -1,13 +1,30 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-authentication',
   standalone: false,
   templateUrl: './authentication.component.html',
 })
-export class AuthenticationComponent implements OnInit {
-  @Input() loginImage: any;
-  ngOnInit(): void {
-    this.loginImage = 'src/assets/images/login.png'
+export class AuthenticationComponent {
+  userName: string = ''
+  password: string = ''
+  disableButton: boolean = false
+  buttonColor:string = 'lightgrey'
+  inValidUserNameError: string = ''
+  inValidPasswordError: string = ''
+
+  handleOnChange(){
+    if(this.userName == '' || this.password == ''){
+      this.disableButton = true
+      this.buttonColor = 'lightgrey'
+    }
+    else if(this.userName !== '' && this.password !== ''){
+      this.buttonColor = '#2563eb'
+      this.disableButton = false
+    }
+  }
+
+  loginUser(){
+    console.log('clicked', this.userName, this.password)
   }
 }

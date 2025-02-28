@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthenticationComponent } from './app/authentication/authentication.component';
+import { FormsModule } from '@angular/forms';
+import { SharedService } from './shared.service';
 
 @NgModule({
   declarations: [
@@ -12,9 +14,10 @@ import { AuthenticationComponent } from './app/authentication/authentication.com
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

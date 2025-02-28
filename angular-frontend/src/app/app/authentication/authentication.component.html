@@ -6,17 +6,25 @@
        class="border border-black rounded-md outline-none w-[260px]
        h-9 p-1 text-xs pl-2" 
        placeholder='Please enter email or mobile number' 
+       [(ngModel)]="userName"
+       (ngModelChange)="handleOnChange()"
       />
     </div>
     
     <input type="password" class="border border-black rounded-md outline-none w-[260px] h-9
      p-1 text-xs pl-2"
      placeholder='Password'
+     [(ngModel)]="password"
+     (ngModelChange)="handleOnChange()"
     />
 
     <button type="submit" 
     class="flex justify-center items-center mt-4 w-[260px] h-9 p-2
-    text-white font-bold rounded-md">CONTINUE</button>
+    text-white font-bold rounded-md"
+    [style]="{background: buttonColor}"
+    [disabled]="disableButton"
+    (click)="loginUser()"
+    >CONTINUE</button>
 
     <p class="text-[8px] text-slate-400 mt-4">This site is protected by reCAPTCHA and the 
     Google <span class="text-blue-600 font-semibold">Privacy Policy</span> and 
