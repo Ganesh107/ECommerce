@@ -33,7 +33,6 @@ namespace ECommerce.Blob.Service
 
             app.UseAuthorization();
 
-
             app.MapControllers();
 
             app.Run();

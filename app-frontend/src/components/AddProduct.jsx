@@ -29,10 +29,15 @@ function AddProduct() {
 
   const SendData = () => {
     product.overViewModel = overviewModel;
+    product.images = product.images.map(img => img.split(",")[1]);
     console.log(product)
+    
+    httpPost(product, "https://localhost:7100/api/Product/AddProduct")
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+
     setProduct(productModel)
     fileInputRef.current.value = null;
-    //httpPost(product, "localhost:7000")
   }
 
   const clearFileSelection = () => {

@@ -4,6 +4,6 @@
     {
         public string? FileName { get; set; }        
         public string? Path { get; set; }            
-        public byte[]? FileBytes { get; set; }   
+        public string[]? FileBytes { get; set; }   
     }
 }

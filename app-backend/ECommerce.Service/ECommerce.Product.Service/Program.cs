@@ -36,6 +36,17 @@ namespace ECommerce.Product.Service
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IProductService, ProductService>();
 
+            // Configure CORS Policy
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("ECommerceCorsPolicy", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -52,7 +63,8 @@ namespace ECommerce.Product.Service
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            
+            app.UseCors("ECommerceCorsPolicy");
+
             app.UseHttpsRedirection();
 
             app.MapControllers();

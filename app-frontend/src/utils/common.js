@@ -9,7 +9,7 @@ export function httpPost(payload, url){
         },
         body: jsonPayload
     }
-    return fetch(authorizeurl, metaData)
+    return fetch(url, metaData)
 }
 
 export function isInputMobileNumber(input){

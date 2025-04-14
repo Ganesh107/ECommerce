@@ -17,11 +17,12 @@ namespace ECommerce.Product.Service.Model
         public string? Color { get; set; } 
         public int? Count { get; set; }
         public string? Size { get; set; } 
-        public IEnumerable<string> Images { get; set; } = [];
+        public string[] Images { get; set; } = [];
         public OverviewModel OverViewModel { get; set; } = new OverviewModel();
         public string? SellerName { get; set; } 
         public double? SellerRating { get; set; }
         public RatingAndReviews RatingAndReviews { get; set; } = new RatingAndReviews();
+        public string? Blobpath { get; set; }
     }
 
     public class OverviewModel

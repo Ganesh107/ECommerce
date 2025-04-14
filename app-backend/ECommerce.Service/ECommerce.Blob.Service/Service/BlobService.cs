@@ -10,6 +10,12 @@ namespace ECommerce.Blob.Service.Service
     {
         private readonly ConfigurationItem configItem = configurationItem.Value;
 
+        /// <summary>
+        /// AddBlob
+        /// </summary>
+        /// <param name="documentItem"></param>
+        /// <param name="traceLog"></param>
+        /// <returns></returns>
         public bool AddBlob(DocumentItem documentItem, StringBuilder traceLog)
         {
             traceLog.Append("Started AddBlob Service Method.###");
@@ -26,19 +32,30 @@ namespace ECommerce.Blob.Service.Service
             {
                 throw new("Error while uploading to blob");
             }
-
             traceLog.Append("Exit From AddBlob Service Method.###");
             return isUploaded;
         }
 
+        /// <summary>
+        /// Upload sBlob
+        /// </summary>
+        /// <param name="blobClient"></param>
+        /// <param name="documentItem"></param>
+        /// <param name="traceLog"></param>
+        /// <returns></returns>
         private static bool UploadBlob(BlobClient blobClient, DocumentItem documentItem, StringBuilder traceLog)
         {
             traceLog.Append("Started UploadBlob Method");
             bool isUploaded = false;
             try
             {
-                using var stream = new MemoryStream(documentItem.FileBytes ?? []);
-                blobClient.UploadAsync(stream, overwrite: true).Wait();
+                ParallelOptions option = new() { MaxDegreeOfParallelism = 5 };
+                Parallel.ForEach(documentItem.FileBytes ?? [], option, (file) =>
+                {
+                    byte[] byteArray = Convert.FromBase64String(file);
+                    using var stream = new MemoryStream(byteArray ?? []);
+                    blobClient.UploadAsync(stream, overwrite: true);
+                });
                 isUploaded = true;
             }
             catch (Exception)
@@ -49,6 +66,13 @@ namespace ECommerce.Blob.Service.Service
             return isUploaded;
         }
 
+        /// <summary>
+        /// Get Blob Client
+        /// </summary>
+        /// <param name="documentItem"></param>
+        /// <param name="containerClient"></param>
+        /// <param name="traceLog"></param>
+        /// <returns></returns>
         private static BlobClient GetBlobClient(DocumentItem documentItem, BlobContainerClient containerClient, StringBuilder traceLog)
         {
             traceLog.Append("Started GetBlobClient Method");
@@ -65,6 +89,12 @@ namespace ECommerce.Blob.Service.Service
             return blobClient;
         }
 
+        /// <summary>
+        /// Get Blob Container Client
+        /// </summary>
+        /// <param name="blobClient"></param>
+        /// <param name="traceLog"></param>
+        /// <returns></returns>
         private BlobContainerClient GetBlobContainerClient(BlobServiceClient blobClient, StringBuilder traceLog)
         {
             traceLog.Append("Started GetBlobContainerClient Method");
