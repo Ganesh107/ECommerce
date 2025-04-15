@@ -28,7 +28,19 @@ namespace ECommerce.Product.Service.Service
             traceLog.Append("Started AddProduct Service Method.###");
             bool isAdded = false;
             var productCollection = database.GetCollection<ProductModel>("ECommerceProducts");
-            ConstructBlobPath(productDetail, traceLog);   
+            ConstructBlobPath(productDetail, traceLog);
+            DocumentItem documentItem = new()
+            {
+                FileName = productDetail.ProductName,
+                Path = productDetail.Blobpath
+            };
+            foreach (var image in productDetail.Images)
+            {
+                documentItem.FileBytes?.Add(image);
+            }
+            UploadProductImagesInBlob(documentItem, traceLog);
+            productCollection.InsertOne(productDetail);
+            isAdded = true;
             traceLog.Append("Exit From AddProduct Method");
             return isAdded;
         }
@@ -41,7 +53,7 @@ namespace ECommerce.Product.Service.Service
         private void ConstructBlobPath(ProductModel productDetail, StringBuilder traceLog)
         {
             traceLog.Append("Started ConstructBlobPath Method.###");
-
+            productDetail.Blobpath = string.Format("{0}/{1}", productDetail.Id, productDetail.ProductName);
             traceLog.Append("Exit From ConstructBlobPath Method");
         }
 
