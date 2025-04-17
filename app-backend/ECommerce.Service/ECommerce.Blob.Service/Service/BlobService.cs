@@ -25,7 +25,7 @@ namespace ECommerce.Blob.Service.Service
                 BlobServiceClient blobServiceClient = new(configItem.BlobConnectionString);
                 BlobContainerClient containerClient = GetBlobContainerClient(blobServiceClient, traceLog);
                 BlobClient blobClient = GetBlobClient(documentItem, containerClient, traceLog);
-                isUploaded = UploadBlob(blobClient, documentItem, traceLog);
+                isUploaded = UploadBlobAsync(blobClient, documentItem, traceLog).Result;
                 traceLog.AppendFormat("Status Of Uploading File To Blob: {0}.###", isUploaded);
             }
             catch (Exception)
@@ -43,18 +43,18 @@ namespace ECommerce.Blob.Service.Service
         /// <param name="documentItem"></param>
         /// <param name="traceLog"></param>
         /// <returns></returns>
-        private static bool UploadBlob(BlobClient blobClient, DocumentItem documentItem, StringBuilder traceLog)
+        private static async Task<bool> UploadBlobAsync(BlobClient blobClient, DocumentItem documentItem, StringBuilder traceLog)
         {
             traceLog.Append("Started UploadBlob Method");
             bool isUploaded = false;
             try
             {
-                ParallelOptions option = new() { MaxDegreeOfParallelism = 5 };
-                Parallel.ForEach(documentItem.FileBytes ?? [], option, (file) =>
+                ParallelOptions option = new() { MaxDegreeOfParallelism = 2 };
+                await Parallel.ForEachAsync(documentItem.FileBytes ?? [], option, async (file, token) =>
                 {
                     byte[] byteArray = Convert.FromBase64String(file);
                     using var stream = new MemoryStream(byteArray ?? []);
-                    blobClient.UploadAsync(stream, overwrite: true);
+                    await blobClient.UploadAsync(stream, overwrite: true, token);
                 });
                 isUploaded = true;
             }

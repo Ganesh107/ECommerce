@@ -10,13 +10,13 @@ namespace ECommerce.Blob.Service.Controllers
     [Route("api/[controller]")]
     public class BlobController(IBlobService blobService) : ControllerBase
     {
-        [Route("AddProduct")]
+        [Route("AddBlob")]
         [HttpPost]
         public HttpSingleReponseItem<bool> AddBlob(DocumentItem documentItem)
         {
             HttpSingleReponseItem<bool> response = new();
             StringBuilder traceLog = new();
-            traceLog.Append("Started AddProduct method in user controller");
+            traceLog.Append("Started AddBlob method in user controller");
             bool data;
             try
             {
@@ -29,7 +29,7 @@ namespace ECommerce.Blob.Service.Controllers
                 response.StatusCode = 500;
                 response.Exception = exception.Message;
             }
-            traceLog.Append("Exit from AddProduct method in user controller");
+            traceLog.Append("Exit from AddBlob method in user controller");
             return response;
         }
     }
