@@ -12,7 +12,7 @@ namespace ECommerce.Blob.Service.Controllers
     {
         [Route("AddBlob")]
         [HttpPost]
-        public HttpSingleReponseItem<bool> AddBlob(DocumentItem documentItem)
+        public HttpSingleReponseItem<bool> AddBlob(List<DocumentItem> documentItem)
         {
             HttpSingleReponseItem<bool> response = new();
             StringBuilder traceLog = new();

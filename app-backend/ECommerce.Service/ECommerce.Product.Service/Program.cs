@@ -27,9 +27,15 @@ namespace ECommerce.Product.Service
                 options.UseSqlServer(configItem.UserConnectionString));
 
             // MongoDB
-            builder.Services.AddScoped<IMongoClient, MongoClient>(options =>
+            builder.Services.AddSingleton<IMongoClient>(sp =>
             {
                 return new MongoClient(configItem.MongoDbConnectionString);
+            });
+
+            builder.Services.AddSingleton(options =>
+            {
+                var client = options.GetRequiredService<IMongoClient>();
+                return client.GetDatabase("ECommerceDB");
             });
 
             // Service

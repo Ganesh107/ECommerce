@@ -5,6 +5,6 @@ namespace ECommerce.Blob.Service.Service
 {
     public interface IBlobService
     {
-        bool AddBlob(DocumentItem documentItem, StringBuilder traceLog);
+        bool AddBlob(List<DocumentItem> documentItem, StringBuilder traceLog);
     }
 }

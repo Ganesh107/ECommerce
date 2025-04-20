@@ -27,9 +27,10 @@ namespace ECommerce.Product.Service.Utility
         public static readonly string MandatoryFieldMissError = "Mandatory fields are missing - {0}";
         #endregion
 
-        #region Product 
+        #region Blob 
         // Endpoints
         public static readonly string AddBlob = "Blob/AddBlob";
+        public static readonly string Extension = ".jpg";
 
         // Error
         public static readonly string FileUploadError = "Failed to upload images in blob";

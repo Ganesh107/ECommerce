@@ -8,11 +8,10 @@ using System.Text;
 
 namespace ECommerce.Product.Service.Service
 {
-    public class ProductService(IMongoClient _mongoClient, IOptions<ConfigurationItem> configValues) : IProductService
+    public class ProductService(IMongoDatabase _database, IOptions<ConfigurationItem> configValues) : IProductService
     {
         #region Private Variables
-        public readonly IMongoClient mongoClient = _mongoClient;
-        private readonly IMongoDatabase database = _mongoClient.GetDatabase("EcommerceDB");
+        private readonly IMongoDatabase database = _database;
         private readonly ConfigurationItem configItem = configValues.Value;
         private readonly HttpClient httpClient = new();
         #endregion
@@ -27,20 +26,17 @@ namespace ECommerce.Product.Service.Service
         {
             traceLog.Append("Started AddProduct Service Method.###");
             bool isAdded;
-            var productCollection = database.GetCollection<ProductModel>("ECommerceProducts");
-            ConstructBlobPath(productDetail, traceLog);
-            DocumentItem documentItem = new()
-            {
-                FileName = productDetail.ProductName,
-                Path = productDetail.Blobpath
-            };
+            var c = new MongoClient(configItem.MongoDbConnectionString);
+            var _database = c.GetDatabase("ECommerceDB");
 
-            foreach (var image in productDetail.Images)
-            {
-                documentItem.FileBytes?.Add(image);
-            }
 
-            UploadProductImagesInBlob(documentItem, traceLog);
+            var productCollection = _database.GetCollection<ProductModel>("Products");
+
+            // Upload Images in Blob
+            List<DocumentItem> imagesToUpload = PrepareBlobUploadPayload(productDetail);
+            UploadProductImagesInBlob(imagesToUpload, traceLog);
+
+            // Add product in db
             productCollection.InsertOne(productDetail);
             isAdded = true;
 
@@ -49,15 +45,24 @@ namespace ECommerce.Product.Service.Service
         }
 
         /// <summary>
-        /// Create Blob For Each Content To Be Uploaded
+        /// Prepare Blob Upload Payload
         /// </summary>
         /// <param name="productDetail"></param>
-        /// <param name="traceLog"></param>
-        private void ConstructBlobPath(ProductModel productDetail, StringBuilder traceLog)
+        /// <returns></returns>
+        private static List<DocumentItem> PrepareBlobUploadPayload(ProductModel productDetail)
         {
-            traceLog.Append("Started ConstructBlobPath Method.###");
-            productDetail.Blobpath = string.Format("{0}/{1}", productDetail.Id, productDetail.ProductName);
-            traceLog.Append("Exit From ConstructBlobPath Method");
+            List<DocumentItem> items = [];
+            for (int i = 0; i < productDetail.Images.Length; i++)
+            {
+                items.Add(new()
+                {
+                    FileName = productDetail.ProductName,
+                    Path = string.Format("{0}/{1}_{2}{3}", productDetail.Id, productDetail.ProductName, i + 1, ProductConstants.Extension),
+                    FileBytes = productDetail.Images[i]
+                });
+                productDetail.ImageUrls.Add(items[i].Path ?? string.Empty);
+            }
+            return items;
         }
 
         /// <summary>
@@ -66,7 +71,7 @@ namespace ECommerce.Product.Service.Service
         /// <param name="documentItem"></param>
         /// <param name="traceLog"></param>
         /// <returns></returns>
-        private bool UploadProductImagesInBlob(DocumentItem documentItem, StringBuilder traceLog)
+        private bool UploadProductImagesInBlob(List<DocumentItem> documentItem, StringBuilder traceLog)
         {
             traceLog.Append("Started UploadProductImagesInBlob Service Method.###");
             bool isUploaded;

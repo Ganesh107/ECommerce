@@ -2,6 +2,7 @@
 using ECommerce.Blob.Service.Model;
 using ECommerce.Blob.Service.Utility;
 using Microsoft.Extensions.Options;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace ECommerce.Blob.Service.Service
@@ -16,16 +17,22 @@ namespace ECommerce.Blob.Service.Service
         /// <param name="documentItem"></param>
         /// <param name="traceLog"></param>
         /// <returns></returns>
-        public bool AddBlob(DocumentItem documentItem, StringBuilder traceLog)
+        public bool AddBlob(List<DocumentItem> documentItem, StringBuilder traceLog)
         {
             traceLog.Append("Started AddBlob Service Method.###");
             bool isUploaded;
             try
             {
+                List<(BlobClient, DocumentItem)> uploadItems = [];
                 BlobServiceClient blobServiceClient = new(configItem.BlobConnectionString);
                 BlobContainerClient containerClient = GetBlobContainerClient(blobServiceClient, traceLog);
-                BlobClient blobClient = GetBlobClient(documentItem, containerClient, traceLog);
-                isUploaded = UploadBlobAsync(blobClient, documentItem, traceLog).Result;
+
+                foreach (var item in documentItem)
+                {
+                    BlobClient blobClient = GetBlobClient(item, containerClient, traceLog);
+                    uploadItems.Add((blobClient, item));    
+                }
+                isUploaded = UploadBlob(uploadItems, traceLog);
                 traceLog.AppendFormat("Status Of Uploading File To Blob: {0}.###", isUploaded);
             }
             catch (Exception)
@@ -43,18 +50,19 @@ namespace ECommerce.Blob.Service.Service
         /// <param name="documentItem"></param>
         /// <param name="traceLog"></param>
         /// <returns></returns>
-        private static async Task<bool> UploadBlobAsync(BlobClient blobClient, DocumentItem documentItem, StringBuilder traceLog)
+        private static bool UploadBlob(List<(BlobClient, DocumentItem)> uploadItems, StringBuilder traceLog)
         {
             traceLog.Append("Started UploadBlob Method");
             bool isUploaded = false;
             try
             {
-                ParallelOptions option = new() { MaxDegreeOfParallelism = 2 };
-                await Parallel.ForEachAsync(documentItem.FileBytes ?? [], option, async (file, token) =>
+                ParallelOptions option = new() { MaxDegreeOfParallelism = 3 };
+                Parallel.ForEach(uploadItems ?? [], option, (item) =>
                 {
-                    byte[] byteArray = Convert.FromBase64String(file);
+                    var (client, uploadItem) = (item.Item1,  item.Item2);
+                    byte[] byteArray = Convert.FromBase64String(uploadItem.FileBytes ?? string.Empty);
                     using var stream = new MemoryStream(byteArray ?? []);
-                    await blobClient.UploadAsync(stream, overwrite: true, token);
+                    client.UploadAsync(stream, overwrite: true);
                 });
                 isUploaded = true;
             }
