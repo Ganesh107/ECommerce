@@ -8,10 +8,9 @@ using System.Text;
 
 namespace ECommerce.Product.Service.Service
 {
-    public class ProductService(IMongoDatabase _database, IOptions<ConfigurationItem> configValues) : IProductService
+    public class ProductService(IMongoDatabase database, IOptions<ConfigurationItem> configValues) : IProductService
     {
         #region Private Variables
-        private readonly IMongoDatabase database = _database;
         private readonly ConfigurationItem configItem = configValues.Value;
         private readonly HttpClient httpClient = new();
         #endregion
@@ -26,11 +25,8 @@ namespace ECommerce.Product.Service.Service
         {
             traceLog.Append("Started AddProduct Service Method.###");
             bool isAdded;
-            var c = new MongoClient(configItem.MongoDbConnectionString);
-            var _database = c.GetDatabase("ECommerceDB");
-
-
-            var productCollection = _database.GetCollection<ProductModel>("Products");
+            var productCollection = database.GetCollection<ProductModel>("Products");
+            productDetail.Id = Guid.NewGuid().ToString();
 
             // Upload Images in Blob
             List<DocumentItem> imagesToUpload = PrepareBlobUploadPayload(productDetail);

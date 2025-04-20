@@ -6,7 +6,8 @@ namespace ECommerce.Product.Service.Model
 {
     public class ProductModel : EntityBase
     {
-        public Guid Id { get; set; } = Guid.NewGuid(); // Auto-generate a unique ID
+        [BsonId]
+        public string Id { get; set; } = string.Empty; 
         public string? ProductName { get; set; } 
         public string? Brand { get; set; } 
         public string? ModelNumber { get; set; } 
