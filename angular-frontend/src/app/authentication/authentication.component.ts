@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SharedService } from '../../shared.service';
-import { environment } from '../../../assets/environments/environment';
+import { SharedService } from '../shared.service';
+import { environment } from '../../assets/environments/environment';
 
 @Component({
   selector: 'app-authentication',
