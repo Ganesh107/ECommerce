@@ -2,7 +2,6 @@
 using ECommerce.Blob.Service.Model;
 using ECommerce.Blob.Service.Utility;
 using Microsoft.Extensions.Options;
-using System.Reflection.Metadata;
 using System.Text;
 
 namespace ECommerce.Blob.Service.Service
@@ -32,6 +31,7 @@ namespace ECommerce.Blob.Service.Service
                     BlobClient blobClient = GetBlobClient(item, containerClient, traceLog);
                     uploadItems.Add((blobClient, item));    
                 }
+
                 isUploaded = UploadBlob(uploadItems, traceLog);
                 traceLog.AppendFormat("Status Of Uploading File To Blob: {0}.###", isUploaded);
             }
@@ -44,7 +44,7 @@ namespace ECommerce.Blob.Service.Service
         }
 
         /// <summary>
-        /// Upload sBlob
+        /// Upload Blob
         /// </summary>
         /// <param name="blobClient"></param>
         /// <param name="documentItem"></param>
