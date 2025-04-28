@@ -12,8 +12,8 @@ namespace ECommerce.Product.Service.Model
         public string? Brand { get; set; } 
         public string? ModelNumber { get; set; } 
         public string? ModelName { get; set; } 
-        public decimal? CurrentPrice { get; set; }
-        public decimal? OriginalPrice { get; set; }
+        public string? CurrentPrice { get; set; }
+        public string? OriginalPrice { get; set; }
         public string? Memory { get; set; } 
         public string? Category { get; set; } 
         public string? SubCategory { get; set; } 

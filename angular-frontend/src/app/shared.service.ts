@@ -43,6 +43,6 @@ export class SharedService {
             "Authorization": token
         });
 
-        return this.http.post(url, payload, { headers: httpHeader });
+        return this.httpClient.post(url, payload, { headers: httpHeader });
     }
 }

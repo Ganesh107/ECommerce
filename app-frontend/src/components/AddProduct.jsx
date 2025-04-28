@@ -36,8 +36,8 @@ function AddProduct() {
     .then(res => console.log(res))
     .catch(err => console.log(err))
 
-    setProduct(productModel)
-    fileInputRef.current.value = null;
+    //setProduct(productModel)
+    //fileInputRef.current.value = null;
   }
 
   const clearFileSelection = () => {
@@ -158,21 +158,21 @@ function AddProduct() {
       </div>
       <div className='flex gap-x-3'>
         <p>Highlights</p>
-        <input value={overviewModel.highLights} 
+        <textarea value={overviewModel.highLights} 
           className='border border-black rounded-md outline-none'
           type='text' placeholder='Size' 
           onChange={e => setOverview({...overviewModel, highLights: e.target.value})}/>
       </div>
       <div className='flex gap-x-3'>
         <p>Overview</p>
-        <input value={overviewModel.overview} 
+        <textarea value={overviewModel.overview} 
           className='border border-black rounded-md outline-none'
           type='text' placeholder='Size' 
           onChange={e => setOverview({...overviewModel, overview: e.target.value})}/>
       </div>
       <div className='flex gap-x-3'>
         <p>Specifications</p>
-        <input value={overviewModel.specifications} 
+        <textarea value={overviewModel.specifications} 
           className='border border-black rounded-md outline-none'
           type='text' placeholder='Size' 
           onChange={e => setOverview({...overviewModel, specifications: e.target.value})}/>
