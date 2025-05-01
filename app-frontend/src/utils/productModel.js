@@ -17,10 +17,5 @@ export const productModel = {
     overview: "",
     specifications:""
   },
-  sellerName: "",
-  sellerRating: 0.0,
-  ratingAndReviews:{
-    overallRating: 0.0,
-    comments:[]
-  }
+  sellerName: ""
 }
