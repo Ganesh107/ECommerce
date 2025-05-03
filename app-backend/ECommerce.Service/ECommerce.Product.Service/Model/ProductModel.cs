@@ -22,11 +22,12 @@ namespace ECommerce.Product.Service.Model
         public string? Size { get; set; }
         [BsonIgnore]
         public string[] Images { get; set; } = [];
+
+        public List<string> ImageUrls = [];
         public OverviewModel OverViewModel { get; set; } = new();
         public string? SellerName { get; set; } 
         public double? SellerRating { get; set; }
         public RatingAndReviews RatingAndReviews { get; set; } = new();
-        public List<string> ImageUrls = [];
     }
 
     public class OverviewModel

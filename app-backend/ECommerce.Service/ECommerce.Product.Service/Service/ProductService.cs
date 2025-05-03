@@ -27,6 +27,9 @@ namespace ECommerce.Product.Service.Service
             bool isAdded;
             var productCollection = database.GetCollection<ProductModel>("Products");
             productDetail.Id = Guid.NewGuid().ToString();
+            productDetail.CreatedBy = "system";
+            productDetail.CreatedDate = DateTime.Now;
+            productDetail.IsActive = true;
 
             // Upload Images in Blob
             List<DocumentItem> imagesToUpload = PrepareBlobUploadPayload(productDetail);
@@ -45,7 +48,7 @@ namespace ECommerce.Product.Service.Service
         /// </summary>
         /// <param name="productDetail"></param>
         /// <returns></returns>
-        private static List<DocumentItem> PrepareBlobUploadPayload(ProductModel productDetail)
+        private List<DocumentItem> PrepareBlobUploadPayload(ProductModel productDetail)
         {
             List<DocumentItem> items = [];
             for (int i = 0; i < productDetail.Images.Length; i++)
@@ -53,10 +56,11 @@ namespace ECommerce.Product.Service.Service
                 items.Add(new()
                 {
                     FileName = productDetail.ProductName,
-                    Path = string.Format("{0}/{1}_{2}{3}", productDetail.Id, productDetail.ProductName, i + 1, ProductConstants.Extension),
+                    Path = string.Format("{0}/{1}_{2}{3}", productDetail.Id, "Image", i + 1, ProductConstants.Extension),
                     FileBytes = productDetail.Images[i]
                 });
-                productDetail.ImageUrls.Add(items[i].Path ?? string.Empty);
+                string imageUrl = string.Format("{0}/{1}", configItem.ECommerceBlobUrl, items[^1].Path);
+                productDetail.ImageUrls.Add(imageUrl);
             }
             return items;
         }

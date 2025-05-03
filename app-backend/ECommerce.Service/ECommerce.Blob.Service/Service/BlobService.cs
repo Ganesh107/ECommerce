@@ -53,17 +53,16 @@ namespace ECommerce.Blob.Service.Service
         private static bool UploadBlob(List<(BlobClient, DocumentItem)> uploadItems, StringBuilder traceLog)
         {
             traceLog.Append("Started UploadBlob Method");
-            bool isUploaded = false;
+            bool isUploaded;
             try
             {
-                ParallelOptions option = new() { MaxDegreeOfParallelism = 3 };
-                Parallel.ForEach(uploadItems ?? [], option, (item) =>
+                foreach (var item in uploadItems)
                 {
-                    var (client, uploadItem) = (item.Item1,  item.Item2);
+                    var (client, uploadItem) = (item.Item1, item.Item2);
                     byte[] byteArray = Convert.FromBase64String(uploadItem.FileBytes ?? string.Empty);
                     using var stream = new MemoryStream(byteArray ?? []);
                     client.UploadAsync(stream, overwrite: true);
-                });
+                }
                 isUploaded = true;
             }
             catch (Exception)
