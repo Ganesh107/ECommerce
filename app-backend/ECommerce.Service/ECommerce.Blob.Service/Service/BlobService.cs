@@ -32,7 +32,7 @@ namespace ECommerce.Blob.Service.Service
                     uploadItems.Add((blobClient, item));    
                 }
 
-                isUploaded = UploadBlob(uploadItems, traceLog);
+                isUploaded = UploadBlob(uploadItems, traceLog).Result;
                 traceLog.AppendFormat("Status Of Uploading File To Blob: {0}.###", isUploaded);
             }
             catch (Exception)
@@ -50,7 +50,7 @@ namespace ECommerce.Blob.Service.Service
         /// <param name="documentItem"></param>
         /// <param name="traceLog"></param>
         /// <returns></returns>
-        private static bool UploadBlob(List<(BlobClient, DocumentItem)> uploadItems, StringBuilder traceLog)
+        private static async Task<bool> UploadBlob(List<(BlobClient, DocumentItem)> uploadItems, StringBuilder traceLog)
         {
             traceLog.Append("Started UploadBlob Method");
             bool isUploaded;
@@ -61,7 +61,7 @@ namespace ECommerce.Blob.Service.Service
                     var (client, uploadItem) = (item.Item1, item.Item2);
                     byte[] byteArray = Convert.FromBase64String(uploadItem.FileBytes ?? string.Empty);
                     using var stream = new MemoryStream(byteArray ?? []);
-                    client.UploadAsync(stream, overwrite: true);
+                    await client.UploadAsync(stream, overwrite: true);
                 }
                 isUploaded = true;
             }
