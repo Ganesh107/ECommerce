@@ -134,6 +134,13 @@ function AddProduct() {
           type='text' placeholder='Size' 
           onChange={e => setProduct({...product, size: e.target.value})}/>
       </div>
+      <div className='flex gap-x-3'>
+        <p>Seller</p>
+        <input value={product.sellerName} 
+          className='border border-black rounded-md outline-none'
+          type='text' placeholder='Seller' 
+          onChange={e => setProduct({...product, sellerName: e.target.value})}/>
+      </div>
       <div className>
         <p>Upload Images</p>
         <input
