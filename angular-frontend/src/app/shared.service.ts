@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { HttpClient, HttpBackend, HttpHeaders } from "@angular/common/http";
 
 @Injectable({
@@ -7,12 +7,8 @@ import { HttpClient, HttpBackend, HttpHeaders } from "@angular/common/http";
 export class SharedService { 
     private emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     private mobileRegex: RegExp = /^(\+91)?[6-9]\d{9}$/;
-    private httpClient: HttpClient;
-
-    constructor(private http: HttpClient, handler: HttpBackend){
-        this.httpClient = new HttpClient(handler)
-    }
-
+    private httpClient = inject(HttpClient)
+   
     isInputValid(input: string){
         let isEmail = false;
         for (let c of input){

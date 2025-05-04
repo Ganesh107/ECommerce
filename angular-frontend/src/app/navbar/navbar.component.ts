@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent {
-
+  arr: string[] = ["Electronics", "Men's Fashion", "Women's Fashion", "Kid's Fashion", "Home & Kitchen", 
+    "Baby", "Toys", "Sports & Outdoors", "Stationary", "Automotive", "Books & Media", "Food"]
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SharedService } from '../shared.service';
 import { environment } from '../../assets/environments/environment';
 
@@ -7,19 +7,14 @@ import { environment } from '../../assets/environments/environment';
   standalone: false,
   templateUrl: './authentication.component.html',
 })
-export class AuthenticationComponent implements OnInit {
+export class AuthenticationComponent {
   userName: string = '';
   password: string = '';
   disableButton: boolean = false;
   buttonColor:string = 'lightgrey';
   invalidUserName:boolean = false;
   invalidPassword: boolean = false;
-
-  constructor(private sharedService: SharedService){}
-
-  ngOnInit(): void {
-    
-  }
+  sharedService = inject(SharedService)
 
   handleOnChange(){
     this.invalidUserName = false
