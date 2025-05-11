@@ -32,8 +32,15 @@
 </div>
 
 <!------------- Category Section ---------------->
-<div class="flex max-w-screen h-[48px] items-center ml-[240px] bg-[#fcfbf4] border-b-[#e2e5f1] border-solid border-b-[1px] z-10">
-    <div class="flex items-center h-full space-x-7 w-[1200px] overflow-x-auto scrollbar-hide font-semibold">
+<div class="flex max-w-screen h-[48px] items-center ml-[240px] bg-[#fcfbf4] border-b-[#e2e5f1] border-solid border-b-[1px]">
+    @if (showLeftButton){
+        <button class="w-[35px] h-full flex items-center justify-start bg-gradient-to-r from-transparent to-white" 
+        (click)="handleScroll('right')">
+            <img class="h-full" src="assets/images/chevron-left.svg">
+        </button>
+    }
+
+    <div class="flex items-center h-full space-x-7 w-[1200px] overflow-x-auto scrollbar-hide font-semibold" #nav>
         <a routerLink="" class="flex items-center justify-center min-w-[85px] border-b-2 h-full">Electronics</a>
         <a routerLink="" class="flex items-center justify-center min-w-[110px]">Men's Fashion</a>
         <a routerLink="" class="flex items-center justify-center min-w-[127px]">Women's Fashion</a>
@@ -47,8 +54,12 @@
         <a routerLink="" class="flex items-center justify-center min-w-[120px]">Books & Media</a>
         <a routerLink="" class="flex items-center justify-center min-w-[40px]">Food</a>
     </div>
-    <button class="w-[35px] h-full z-20 flex items-center justify-start pl-2 ">
-        <img class="h-full" src="assets/images/chevron-right.svg">
-    </button>
+
+    @if (!showLeftButton){
+        <button class="w-[35px] h-full flex items-center justify-start bg-gradient-to-l from-transparent to-white" 
+        (click)="handleScroll('left')">
+            <img class="h-full" src="assets/images/chevron-right.svg">
+        </button>
+    }
     <img src="assets/images/noon-one.png">
 </div>
