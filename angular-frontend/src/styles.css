@@ -5,3 +5,13 @@
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox and IE/Edge */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
