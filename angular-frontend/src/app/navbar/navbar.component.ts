@@ -15,5 +15,4 @@ export class NavbarComponent {
     container.scrollBy({ left: limit, behavior: 'smooth' });
     this.showLeftButton = direction === 'left' ? true : false;
   }
-
 }

@@ -1,4 +1,4 @@
-<!--------------------- Main Header ---------------------->
+<!---------------------------------------------------- Main Header ------------------------------------------------------------------------->
 <div class="flex max-w-screen h-[65px] bg-[#feee00] items-center justify-center space-x-4">
     <div class="w-[88px] h-full flex items-center">
         <img class="min-w-[80px]" src="assets/images/noon-logo-en.svg" alt="noon logo"> 
@@ -31,32 +31,32 @@
     </div>
 </div>
 
-<!------------- Category Section ---------------->
-<div class="flex max-w-screen h-[48px] items-center ml-[240px] bg-[#fcfbf4] border-b-[#e2e5f1] border-solid border-b-[1px]">
+<!---------------------------------------------------- Category Section ------------------------------------------------------------------>
+<div class="flex max-w-full h-[48px] items-center pl-[240px] bg-[#fcfbf4] border-b-[#e2e5f1] border-solid border-b-[1px]">
     @if (showLeftButton){
-        <button class="w-[35px] h-full flex items-center justify-start bg-gradient-to-r from-transparent to-white" 
+        <button class="w-[35px] cursor-pointer h-full flex items-center justify-start bg-gradient-to-r from-transparent to-white" 
         (click)="handleScroll('right')">
             <img class="h-full" src="assets/images/chevron-left.svg">
         </button>
     }
 
     <div class="flex items-center h-full space-x-7 w-[1200px] overflow-x-auto scrollbar-hide font-semibold" #nav>
-        <a routerLink="" class="flex items-center justify-center min-w-[85px] border-b-2 h-full">Electronics</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[110px]">Men's Fashion</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[127px]">Women's Fashion</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[110px]">Kid's Fashion</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[120px]">Home & Kitchen</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[30px]">Baby</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[30px]">Toys</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[145px]">Sports & Outdoors</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[70px]">Stationary</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[70px]">Automotive</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[120px]">Books & Media</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[40px]">Food</a>
+        <a routerLink="" class="flex items-center justify-center min-w-[85px] h-full" appHighlight>Electronics</a>
+        <a routerLink="" class="flex items-center justify-center min-w-[110px] h-full" appHighlight>Men's Fashion</a>
+        <a routerLink="" class="flex items-center justify-center min-w-[127px] h-full" appHighlight>Women's Fashion</a>
+        <a routerLink="" class="flex items-center justify-center min-w-[110px] h-full" appHighlight>Kid's Fashion</a>
+        <a routerLink="" class="flex items-center justify-center min-w-[120px] h-full" appHighlight>Home & Kitchen</a>
+        <a routerLink="" class="flex items-center justify-center min-w-[35px] h-full" appHighlight>Baby</a>
+        <a routerLink="" class="flex items-center justify-center min-w-[35px] h-full" appHighlight>Toys</a>
+        <a routerLink="" class="flex items-center justify-center min-w-[145px] h-full" appHighlight>Sports & Outdoors</a>
+        <a routerLink="" class="flex items-center justify-center min-w-[75px] h-full" appHighlight>Stationary</a>
+        <a routerLink="" class="flex items-center justify-center min-w-[80px] h-full" appHighlight>Automotive</a>
+        <a routerLink="" class="flex items-center justify-center min-w-[120px] h-full" appHighlight>Books & Media</a>
+        <a routerLink="" class="flex items-center justify-center min-w-[40px] h-full pr-2" appHighlight>Food</a>
     </div>
 
     @if (!showLeftButton){
-        <button class="w-[35px] h-full flex items-center justify-start bg-gradient-to-l from-transparent to-white" 
+        <button class="w-[35px] h-full cursor-pointer flex items-center justify-start bg-gradient-to-l from-transparent to-white" 
         (click)="handleScroll('left')">
             <img class="h-full" src="assets/images/chevron-right.svg">
         </button>
