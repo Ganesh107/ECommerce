@@ -14,6 +14,7 @@ export class NavbarComponent implements OnDestroy{
   displayModal: boolean = false;
   isHovering = false;
   modalCategory = "";
+  private currEle: ElementRef | any;
 
   handleScroll(direction: string): void{
     const container = this.navContainer.nativeElement;
@@ -26,6 +27,7 @@ export class NavbarComponent implements OnDestroy{
     clearTimeout(this.debounceTimeOut); // Debouncing to avoid flickering
     const nativeElement = currCategory instanceof ElementRef ? currCategory.nativeElement : currCategory;
     const currSelection = nativeElement;
+    this.currEle = nativeElement;
     if(state)
       this.renderer.addClass(currSelection, 'border-b-2');
 
@@ -35,6 +37,7 @@ export class NavbarComponent implements OnDestroy{
     
     if(!state && !this.isHovering){
       this.displayModal = false;
+      this.currEle = null;
       this.renderer.removeClass(currSelection, 'border-b-2');
       return;
     }
@@ -42,13 +45,15 @@ export class NavbarComponent implements OnDestroy{
     this.debounceTimeOut = setTimeout(() => {
       this.displayModal = true;
       this.modalCategory = category;
-    }, 200);
+    }, 250);
   }
 
-  handleHover(val: boolean): void{
+  handleHover(val: boolean, event: MouseEvent): void{
     this.isHovering = val;
-    if(!val){
+    const childDiv = event.relatedTarget as Node;
+    if(!val && !this.currEle.contains(childDiv)){
       this.displayModal = false;
+      this.currEle = null;
       const navEle = this.navContainer.nativeElement.children;
       for (const element of navEle) {
         this.renderer.removeClass(element, 'border-b-2');

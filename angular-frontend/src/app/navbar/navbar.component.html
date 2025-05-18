@@ -112,6 +112,6 @@
     <img src="assets/images/noon-one.png">
 </div>
 
-<div #modal (mouseenter)="handleHover(true)" (mouseleave)="handleHover(false)">
+<div #modal (mouseenter)="handleHover(true, $event)" (mouseleave)="handleHover(false, $event)">
     <app-modal *ngIf="displayModal" [modalType]="modalCategory"/> 
 </div>
