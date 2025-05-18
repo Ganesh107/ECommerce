@@ -6,14 +6,14 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { FormsModule } from '@angular/forms';
 import { provideHttpClient } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
-import { HighlightDirective } from './highlight.directive';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthenticationComponent,
     NavbarComponent,
-    HighlightDirective
+    ModalComponent
   ],
   imports: [
     BrowserModule,

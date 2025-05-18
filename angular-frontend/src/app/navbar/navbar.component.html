@@ -1,4 +1,4 @@
-<!---------------------------------------------------- Main Header ------------------------------------------------------------------------->
+<!--------------------------------------------------------Main Header ------------------------------------------------------------------------->
 <div class="flex max-w-screen h-[65px] bg-[#feee00] items-center justify-center space-x-4">
     <div class="w-[88px] h-full flex items-center">
         <img class="min-w-[80px]" src="assets/images/noon-logo-en.svg" alt="noon logo"> 
@@ -8,8 +8,8 @@
             <img src="assets/images/Dubai.svg" alt="country logo" class=""> 
         </div>
         <div class="w-3/4 flex-col">
-            <span class="pl-1 text-[15px]">Deliver to</span>
-            <select class="font-semibold text-md outline-0" title="Country select box">
+            <span class="pl-1 text-[13px]">Deliver to</span>
+            <select class="font-semibold text-[14px] outline-0" title="Country select box">
                 <option>Dubai</option>
             </select>
         </div>
@@ -31,28 +31,76 @@
     </div>
 </div>
 
-<!---------------------------------------------------- Category Section ------------------------------------------------------------------>
+<!------------------------------------------------------ Category Section --------------------------------------------------------------------->
 <div class="flex max-w-full h-[48px] items-center pl-[240px] bg-[#fcfbf4] border-b-[#e2e5f1] border-solid border-b-[1px]">
     @if (showLeftButton){
-        <button class="w-[35px] cursor-pointer h-full flex items-center justify-start bg-gradient-to-r from-transparent to-white" 
+        <button class="w-[35px] cursor-pointer h-full flex items-center justify-start bg-gradient-to-l from-transparent to-white" 
         (click)="handleScroll('right')">
             <img class="h-full" src="assets/images/chevron-left.svg">
         </button>
     }
 
     <div class="flex items-center h-full space-x-7 w-[1200px] overflow-x-auto scrollbar-hide font-semibold" #nav>
-        <a routerLink="" class="flex items-center justify-center min-w-[85px] h-full" appHighlight>Electronics</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[110px] h-full" appHighlight>Men's Fashion</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[127px] h-full" appHighlight>Women's Fashion</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[110px] h-full" appHighlight>Kid's Fashion</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[120px] h-full" appHighlight>Home & Kitchen</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[35px] h-full" appHighlight>Baby</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[35px] h-full" appHighlight>Toys</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[145px] h-full" appHighlight>Sports & Outdoors</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[75px] h-full" appHighlight>Stationary</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[80px] h-full" appHighlight>Automotive</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[120px] h-full" appHighlight>Books & Media</a>
-        <a routerLink="" class="flex items-center justify-center min-w-[40px] h-full pr-2" appHighlight>Food</a>
+        <a routerLink="" class="flex items-center justify-center min-w-[85px] h-full" #electronics
+        (mouseenter)="showModal(true, $event, electronics, 'electronics')" 
+        (mouseleave)="showModal(false, $event, electronics, '')">
+            Electronics
+        </a>
+        <a routerLink="" class="flex items-center justify-center min-w-[110px] h-full" #mens 
+        (mouseenter)="showModal(true, $event, mens, 'mens fashion')" 
+        (mouseleave)="showModal(false, $event, mens, '')">
+            Men's Fashion
+        </a>
+        <a routerLink="" class="flex items-center justify-center min-w-[127px] h-full" #womens
+        (mouseenter)="showModal(true, $event, womens, 'womens fashion')" 
+        (mouseleave)="showModal(false, $event, womens, '')">
+            Women's Fashion
+        </a>
+        <a routerLink="" class="flex items-center justify-center min-w-[110px] h-full" #kids
+        (mouseenter)="showModal(true, $event, kids, 'kids fashion')"
+        (mouseleave)="showModal(false, $event, kids, '')">
+            Kid's Fashion
+        </a>
+        <a routerLink="" class="flex items-center justify-center min-w-[120px] h-full" #home
+        (mouseenter)="showModal(true, $event, home, 'home')"
+        (mouseleave)="showModal(false, $event, home, '')">
+            Home & Kitchen
+        </a>
+        <a routerLink="" class="flex items-center justify-center min-w-[35px] h-full" #baby
+        (mouseenter)="showModal(true, $event, baby, 'baby')"
+        (mouseleave)="showModal(false, $event, baby, '')">
+            Baby
+        </a>
+        <a routerLink="" class="flex items-center justify-center min-w-[35px] h-full" #toys
+        (mouseenter)="showModal(true, $event, toys, 'toys')"
+        (mouseleave)="showModal(false, $event, toys, '')">
+            Toys
+        </a>
+        <a routerLink="" class="flex items-center justify-center min-w-[145px] h-full" #sports
+        (mouseenter)="showModal(true, $event, sports, 'sports')"
+        (mouseleave)="showModal(false, $event, sports, '')">
+            Sports & Outdoors
+        </a>
+        <a routerLink="" class="flex items-center justify-center min-w-[75px] h-full" #stationary
+        (mouseenter)="showModal(true, $event, stationary, 'stationary')"
+        (mouseleave)="showModal(false, $event, stationary, '')">
+            Stationary
+        </a>
+        <a routerLink="" class="flex items-center justify-center min-w-[80px] h-full" #automotive
+        (mouseenter)="showModal(true, $event, automotive, 'automotive')"
+        (mouseleave)="showModal(false, $event, automotive, '')">
+            Automotive
+        </a>
+        <a routerLink="" class="flex items-center justify-center min-w-[120px] h-full" #books
+        (mouseenter)="showModal(true, $event, books, 'books')"
+        (mouseleave)="showModal(false, $event, books, '')">
+            Books & Media
+        </a>
+        <a routerLink="" class="flex items-center justify-center min-w-[40px] h-full pr-2" #food
+        (mouseenter)="showModal(true, $event, food, 'food')"
+        (mouseleave)="showModal(false, $event, food, '')">
+            Food
+        </a>
     </div>
 
     @if (!showLeftButton){
@@ -62,4 +110,8 @@
         </button>
     }
     <img src="assets/images/noon-one.png">
+</div>
+
+<div #modal (mouseenter)="handleHover(true)" (mouseleave)="handleHover(false)">
+    <app-modal *ngIf="displayModal" [modalType]="modalCategory"/> 
 </div>
