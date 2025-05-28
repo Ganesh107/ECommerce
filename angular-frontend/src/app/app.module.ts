@@ -7,13 +7,15 @@ import { FormsModule } from '@angular/forms';
 import { provideHttpClient } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ModalComponent } from './modal/modal.component';
+import { HomepageComponent } from './homepage/homepage.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthenticationComponent,
     NavbarComponent,
-    ModalComponent
+    ModalComponent,
+    HomepageComponent
   ],
   imports: [
     BrowserModule,

@@ -1,16 +1,16 @@
 <div class="flex flex-col items-center h-screen w-full bg-slate-200">
-  <div class="flex flex-col items-center h-[480px] w-[400px] rounded-xl mt-24 bg-white">
-    <div class="overflow-hidden w-[400px] h-[250px] rounded-t-xl">
-      <div class="flex" style="animation: slide 15s linear infinite; width: 800px;">
-        <img src="assets/images/login.png" alt="image" class="h-[250px] w-[400px]" />
-        <img src="assets/images/login.png" alt="image" class="h-[250px] w-[400px]" />
+  <div class="flex flex-col items-center h-[600px] w-[500px] rounded-xl mt-24 bg-white">
+    <div class="overflow-hidden w-[500px] h-[300px] rounded-t-xl">
+      <div class="flex" style="animation: slide 10s linear infinite; width: 2000px;">
+        <img src="assets/images/login.png" alt="image" class="h-[300px] w-[1000px]" />
+        <img src="assets/images/login.png" alt="image" class="h-[300px] w-[1000px]" />
       </div>
     </div>
     <p class='font-bold text-xl text-slate-600 p-2'>Hala! Let's get started</p>
     <div class="flex flex-col h-[48px]">
       <input type="text" 
-       class="border border-black rounded-md outline-none w-[260px]
-       h-9 p-1 text-xs pl-2" 
+       class="border border-black rounded-md outline-none w-[300px]
+       h-12 p-1 text-sm pl-2" 
        placeholder='Please enter email or mobile number' 
        [(ngModel)]="userName"
        (ngModelChange)="handleOnChange()"
@@ -18,15 +18,15 @@
       <span *ngIf="invalidUserName" class="text-red-600 text-[9px] text-left">Invalid Email ID/Mobile number</span>
     </div>
     
-    <input type="password" class="border border-black rounded-md outline-none w-[260px] h-9
-     p-1 text-xs pl-2"
+    <input type="password" class="border border-black rounded-md outline-none w-[300px] h-12 mt-2
+     p-1 text-sm pl-2"
      placeholder='Password'
      [(ngModel)]="password"
      (ngModelChange)="handleOnChange()"
     />
 
     <button type="submit" 
-    class="flex justify-center items-center mt-4 w-[260px] h-9 p-2
+    class="flex justify-center items-center mt-4 w-[300px] h-12 p-2
     text-white font-bold rounded-md"
     [style]="{background: buttonColor}"
     [disabled]="disableButton"
