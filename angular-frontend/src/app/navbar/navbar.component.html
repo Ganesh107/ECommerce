@@ -36,7 +36,7 @@
     @if (showLeftButton){
         <button class="w-[35px] cursor-pointer h-full flex items-center justify-start bg-gradient-to-l from-transparent to-white" 
         (click)="handleScroll('right')">
-            <img class="h-full" src="assets/images/chevron-left.svg">
+            <img class="h-full" src="assets/images/chevron-left.svg" alt="leftarrow">
         </button>
     }
 
@@ -106,12 +106,16 @@
     @if (!showLeftButton){
         <button class="w-[35px] h-full cursor-pointer flex items-center justify-start bg-gradient-to-l from-transparent to-white" 
         (click)="handleScroll('left')">
-            <img class="h-full" src="assets/images/chevron-right.svg">
+            <img class="h-full" src="assets/images/chevron-right.svg" alt="rightarrow">
         </button>
     }
-    <img src="assets/images/noon-one.png">
+    <img src="assets/images/noon-one.png" alt="noon-one">
 </div>
 
 <div #modal (mouseenter)="handleHover(true, $event)" (mouseleave)="handleHover(false, $event)">
     <app-modal *ngIf="displayModal" [modalType]="modalCategory"/> 
+</div>
+
+<div class="flex w-full h-full justify-center items-center">
+    <app-homepage></app-homepage>
 </div>
