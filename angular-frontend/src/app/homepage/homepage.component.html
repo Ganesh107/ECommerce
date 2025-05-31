@@ -1,22 +1,43 @@
 <div class="flex-col justify-center items-center w-full p-1">
-    <div class="flex w-full items-center justify-center">
+    <div class="flex w-full items-center justify-center" *ngIf="displayBanner">
         <img src="assets/images/banner.jpg" alt="banner">
     </div>
     <div class="flex w-full">
-        <div class="flex max-w-[1000px] relative overflow-hidden">
-            <div class="flex w-full transition-transform duration-500 ease-in-out"
-            [style.transform]="'translateX(-' + currentIndex * 100 + '%)'"
-            [style.width.%]="carouselImages.length * 100">
+        <div id="carousel" class="flex max-w-[1000px] relative overflow-hidden z-10">
+            <div class="flex w-full duration-800 ease-in-out" [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
                 @for (image of carouselImages; track $index) {
                     <div class="w-full flex-shrink-0">
                         <img [src]="image" alt="carousel" class="h-[210px] w-full object-cover" />
                     </div>
                 }
             </div>
+            <div class="w-[50px] h-[50px] flex justify-center items-center top-18 left-233 z-20 absolute bg-[hsla(0,0%,100%,.5)]
+            p-3 rounded-full cursor-pointer" (click)="next()">
+                <svg width="20" height="30" viewBox="0 0 220 403" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.08419 18.813C-1.41579 13.313 1.58419 6.81288 4.08419 4.31288C6.58419 1.81289 13.5842 -1.68707 
+                    19.5842 4.31291L219.084 186.313L19.5842 398.313C14.5842 403.313 8.08416 402.313 4.08419 398.313C0.0842264 
+                    394.313 -1.41584 385.313 4.08419 379.813L191.084 186.313L4.08419 18.813Z" fill="black" stroke="black">
+                    </path>
+                </svg>
+            </div>
+            <div class="w-[50px] h-[50px] flex justify-center items-center top-18 left-5 z-20 absolute bg-[hsla(0,0%,100%,.5)]
+            p-3 rounded-full cursor-pointer" (click)="prev()">
+                <svg class="" width="20" height="30" viewBox="0 0 221 403" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M216 383.885C221.5 389.385 218.5 395.885 216 398.385C213.5 400.885 206.5 
+                    404.385 200.5 398.385L0.99997 216.385L200.5 4.38534C205.5 -0.614703 212 0.385379 216 4.38535C220 8.38531 221.5 17.3853 
+                    216 22.8853L29 216.385L216 383.885Z" fill="black" stroke="none">
+                    </path>
+                </svg>
+            </div>
+            <div class="flex top-48 left-105 space-x-2 absolute w-fit h-fit">
+                @for (image of carouselImages; track $index) {
+                    <div class="w-6 h-[3px] bg-[#e2e5f1] rounded-md" [ngClass]="currentIndex === $index ? 'bg-yellow-300':''"></div>
+                }
+            </div>
         </div>
-        <div class="w-[440px] bg-amber-200">
-            
+        <div class="w-[440px] flex">
+            <img src="assets/images/ad1.jpg" class="w-[220px] h-[210px]">
+            <img src="assets/images/ad.jpg" class="w-[220px] h-[210px]">
         </div>
     </div>
-    
 </div>

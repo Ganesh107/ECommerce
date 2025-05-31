@@ -8,11 +8,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 export class HomepageComponent implements OnInit, OnDestroy{
   currentIndex = 0;
   intervalId: any;
+  displayBanner = false;
   carouselImages: string[] = [
     "assets/images/carousel1.jpg",
     "assets/images/carousel2.jpg",
-    "assets/images/carousel1.jpg",
-    "assets/images/carousel2.jpg"
+    "assets/images/carousel3.gif",
+    "assets/images/carousel4.gif",
+    "assets/images/carousel5.gif"
   ]
 
   ngOnInit(): void {
@@ -22,7 +24,7 @@ export class HomepageComponent implements OnInit, OnDestroy{
   startCarouselAutoPlay(): void{
     this.intervalId = setInterval(() => {
       this.next();
-    }, 3000);
+    }, 5000);
   }
 
   next(): void{
