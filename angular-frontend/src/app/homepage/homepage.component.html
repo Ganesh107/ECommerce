@@ -12,7 +12,7 @@
                 }
             </div>
             <div class="w-[50px] h-[50px] flex justify-center items-center top-18 left-233 z-20 absolute bg-[hsla(0,0%,100%,.5)]
-            p-3 rounded-full cursor-pointer" (click)="next()">
+            p-3 rounded-full cursor-pointer" (click)="next(true)">
                 <svg width="20" height="30" viewBox="0 0 220 403" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4.08419 18.813C-1.41579 13.313 1.58419 6.81288 4.08419 4.31288C6.58419 1.81289 13.5842 -1.68707 
                     19.5842 4.31291L219.084 186.313L19.5842 398.313C14.5842 403.313 8.08416 402.313 4.08419 398.313C0.0842264 
@@ -21,7 +21,7 @@
                 </svg>
             </div>
             <div class="w-[50px] h-[50px] flex justify-center items-center top-18 left-5 z-20 absolute bg-[hsla(0,0%,100%,.5)]
-            p-3 rounded-full cursor-pointer" (click)="prev()">
+            p-3 rounded-full cursor-pointer" (click)="prev(true)">
                 <svg class="" width="20" height="30" viewBox="0 0 221 403" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M216 383.885C221.5 389.385 218.5 395.885 216 398.385C213.5 400.885 206.5 
                     404.385 200.5 398.385L0.99997 216.385L200.5 4.38534C205.5 -0.614703 212 0.385379 216 4.38535C220 8.38531 221.5 17.3853 
@@ -31,7 +31,7 @@
             </div>
             <div class="flex top-48 left-105 space-x-2 absolute w-fit h-fit">
                 @for (image of carouselImages; track $index) {
-                    <div class="w-6 h-[3px] bg-[#e2e5f1] rounded-md" [ngClass]="currentIndex === $index ? 'bg-yellow-300':''"></div>
+                    <div class="w-6 h-[3px] bg-[#e2e5f1] rounded-md" [ngClass]="currentIndex === $index ? 'bg-[#feee00]':''"></div>
                 }
             </div>
         </div>

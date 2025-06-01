@@ -23,15 +23,23 @@ export class HomepageComponent implements OnInit, OnDestroy{
 
   startCarouselAutoPlay(): void{
     this.intervalId = setInterval(() => {
-      this.next();
-    }, 5000);
+      this.next(false);
+    }, 4000);
   }
 
-  next(): void{
+  next(isButtonClick: boolean): void{
+    if(isButtonClick){
+      clearInterval(this.intervalId); // Avoid flickering
+      this.startCarouselAutoPlay();
+    } 
     this.currentIndex = (this.currentIndex + 1) % this.carouselImages.length;
   }
 
-  prev(): void{
+  prev(isButtonClick: boolean): void{
+     if(isButtonClick){
+      clearInterval(this.intervalId);
+      this.startCarouselAutoPlay();
+    }
     this.currentIndex = ((this.currentIndex - 1) + this.carouselImages.length) % this.carouselImages.length;
   }
 
