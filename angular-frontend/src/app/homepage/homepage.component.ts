@@ -8,7 +8,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 export class HomepageComponent implements OnInit, OnDestroy{
   currentIndex = 0;
   intervalId: any;
-  displayBanner = false;
+  displayBanner = true;
   carouselImages: string[] = [
     "assets/images/carousel1.jpg",
     "assets/images/carousel2.jpg",
