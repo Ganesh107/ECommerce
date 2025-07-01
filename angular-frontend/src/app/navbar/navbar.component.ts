@@ -23,7 +23,7 @@ export class NavbarComponent implements OnDestroy{
     this.showLeftButton = direction === 'left' ? true : false;
   }
 
-  showModal(state: boolean, event: MouseEvent, currCategory: HTMLElement | ElementRef, category: string): void{
+  showModal(state: boolean, event: MouseEvent, currCategory: HTMLElement | ElementRef, category: string = ''): void{
     clearTimeout(this.debounceTimeOut); // Debouncing to avoid flickering
     const nativeElement = currCategory instanceof ElementRef ? currCategory.nativeElement : currCategory;
     const currSelection = nativeElement;
