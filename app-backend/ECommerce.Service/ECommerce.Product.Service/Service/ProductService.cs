@@ -43,6 +43,14 @@ namespace ECommerce.Product.Service.Service
             return isAdded;
         }
 
+        public IEnumerable<ProductModel> GetProducts(StringBuilder traceLog)
+        {
+            traceLog.Append("Started GetProducts Service Method.###");
+            var productCollection = database.GetCollection<ProductModel>("Products");
+            
+            traceLog.Append("Exit From GetProducts Service Method.###");
+        }
+        #region Private Methods
         /// <summary>
         /// Prepare Blob Upload Payload
         /// </summary>
@@ -99,5 +107,6 @@ namespace ECommerce.Product.Service.Service
             traceLog.Append("Exit From UploadProductImagesInBlob Method");
             return isUploaded;
         }
+        #endregion
     }
 }
