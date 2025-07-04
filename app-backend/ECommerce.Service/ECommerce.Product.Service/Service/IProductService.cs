@@ -7,5 +7,6 @@ namespace ECommerce.Product.Service.Service
     public interface IProductService
     {
         public bool AddProduct(ProductModel productDetails, StringBuilder traceLog);
+        public IEnumerable<ProductModel> GetProducts(StringBuilder traceLog);
     }
 }

@@ -46,10 +46,15 @@ namespace ECommerce.Product.Service.Service
         public IEnumerable<ProductModel> GetProducts(StringBuilder traceLog)
         {
             traceLog.Append("Started GetProducts Service Method.###");
+
             var productCollection = database.GetCollection<ProductModel>("Products");
-            
+            var products = productCollection.Find(_ => true).ToList(); 
+
             traceLog.Append("Exit From GetProducts Service Method.###");
+
+            return products;
         }
+
         #region Private Methods
         /// <summary>
         /// Prepare Blob Upload Payload
