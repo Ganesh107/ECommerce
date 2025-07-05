@@ -41,4 +41,20 @@ export class SharedService {
 
         return this.httpClient.post(url, payload, { headers: httpHeader });
     }
+
+    httpGet(url: string, isTokenAvailable = false) {
+        let httpHeader: any;
+        let token = 'Bearer ' + localStorage.getItem("jwtToken");
+
+        httpHeader = new HttpHeaders({
+            "Content-Type": "application/json;charset=UTF-8",
+            "Accept": "application/json",
+            "Cache-Control": "no-store",
+            "Pragma": "no-cache",
+            "X-Frame-Options": "SAMEORIGIN",
+            "Authorization": token
+        });
+
+        return this.httpClient.get(url, { headers: httpHeader });
+    }
 }

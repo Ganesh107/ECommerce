@@ -43,15 +43,23 @@ namespace ECommerce.Product.Service.Service
             return isAdded;
         }
 
+        /// <summary>
+        /// Retrieves all products from the database.  
+        /// </summary>  
+        /// <param name="traceLog">  
+        /// A <see cref="StringBuilder"/> instance used for logging the execution flow of the method.  
+        /// </param>  
+        /// <returns>  
+        /// An <see cref="IEnumerable{ProductModel}"/> containing all products from the "Products" collection.  
+        /// </returns>  
         public IEnumerable<ProductModel> GetProducts(StringBuilder traceLog)
         {
             traceLog.Append("Started GetProducts Service Method.###");
 
             var productCollection = database.GetCollection<ProductModel>("Products");
-            var products = productCollection.Find(_ => true).ToList(); 
+            var products = productCollection.Find(_ => true).ToList();
 
             traceLog.Append("Exit From GetProducts Service Method.###");
-
             return products;
         }
 

@@ -16,7 +16,8 @@ export class HomepageComponent implements OnInit, OnDestroy{
     "assets/images/carousel4.gif",
     "assets/images/carousel5.gif"
   ]
-
+  products:[] = [];
+  
   ngOnInit(): void {
     this.startCarouselAutoPlay()
   }
