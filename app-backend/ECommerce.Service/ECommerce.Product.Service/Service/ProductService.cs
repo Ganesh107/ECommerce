@@ -55,11 +55,39 @@ namespace ECommerce.Product.Service.Service
         public IEnumerable<ProductModel> GetProducts(StringBuilder traceLog)
         {
             traceLog.Append("Started GetProducts Service Method.###");
-
             var productCollection = database.GetCollection<ProductModel>("Products");
             var products = productCollection.Find(_ => true).ToList();
-
             traceLog.Append("Exit From GetProducts Service Method.###");
+            return products;
+        }
+
+        /// <summary>
+        /// Get Product By Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="traceLog"></param>
+        /// <returns></returns>
+        public ProductModel GetProductById(string id, StringBuilder traceLog)
+        {
+            traceLog.Append("Started GetProductById Service Method.###");
+            var productCollection = database.GetCollection<ProductModel>("Products");
+            var product = productCollection.Find(p => p.Id == id).FirstOrDefault();
+            traceLog.Append("Exit From GetProductById Service Method.###");
+            return product;
+        }
+
+        /// <summary>
+        /// Get Products By Category
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="traceLog"></param>
+        /// <returns></returns>
+        public List<ProductModel> GetProductsByCategory(string category, StringBuilder traceLog)
+        {
+            traceLog.Append("Started GetProductsByCategory Service Method.###");
+            var productCollection = database.GetCollection<ProductModel>("Products");
+            var products = productCollection.Find(p => p.Category == category).ToList();
+            traceLog.Append("Exit From GetProductsByCategory Service Method.###");
             return products;
         }
 

@@ -1,4 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { SharedService } from '../shared.service';
+import { environment } from '../../assets/environments/environment';
 
 @Component({
   selector: 'app-homepage',
@@ -17,9 +19,22 @@ export class HomepageComponent implements OnInit, OnDestroy{
     "assets/images/carousel5.gif"
   ]
   products:[] = [];
-  
+  sharedService = inject(SharedService);
+
   ngOnInit(): void {
     this.startCarouselAutoPlay()
+    this.sharedService.httpGet(environment["productServiceURL"] + '/GetProducts').subscribe({
+      next: (res: any) => {
+        if (res.statusCode === 200) {
+          this.products = res.data;
+        } else {
+          console.error("Error fetching products:", res.message);
+        }
+      },
+      error: (err: any) => {
+        console.error("HTTP Error:", err);
+      }
+    })
   }
 
   startCarouselAutoPlay(): void{

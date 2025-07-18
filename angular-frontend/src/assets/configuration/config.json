@@ -1,3 +1,4 @@
 {
-    "authorizeURL": "https://localhost:7205/api/Auth/AuthorizeUser"
+    "authorizeURL": "https://localhost:7205/api/Auth/AuthorizeUser",
+    "productServiceURL": "https://localhost:7063/api/Product"
 }
