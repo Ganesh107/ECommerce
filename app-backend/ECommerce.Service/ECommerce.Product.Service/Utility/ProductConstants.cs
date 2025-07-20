@@ -36,5 +36,9 @@ namespace ECommerce.Product.Service.Utility
         public static readonly string FileUploadError = "Failed to upload images in blob";
         public static readonly string AddBlobError = "Error occured while uploading in blob, got IsSuccessStatusCode as false";
         #endregion
+
+        #region Redis Cache
+        public static readonly string AllProducts = "AllProducts";
+        #endregion
     }
 }

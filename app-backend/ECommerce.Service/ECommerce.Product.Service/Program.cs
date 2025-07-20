@@ -1,10 +1,11 @@
 
 using ECommerce.Product.Service.Service;
 using ECommerce.Product.Service.ProductContext;
-using ECommerce.User.Service.Utility;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using MongoDB.Driver;
+using ECommerce.Product.Service.Utility;
+using StackExchange.Redis;
 
 namespace ECommerce.Product.Service
 {
@@ -32,6 +33,11 @@ namespace ECommerce.Product.Service
                 return new MongoClient(configItem.MongoDbConnectionString);
             });
 
+            // Redis Cache
+            builder.Services.AddSingleton<IConnectionMultiplexer>(options =>
+                ConnectionMultiplexer.Connect(configItem.RedisConnectionString)
+            );
+
             builder.Services.AddSingleton(options =>
             {
                 var client = options.GetRequiredService<IMongoClient>();
@@ -41,6 +47,7 @@ namespace ECommerce.Product.Service
             // Service
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<ICacheService, RedisCacheService>();
 
             // Configure CORS Policy
             builder.Services.AddCors(options =>

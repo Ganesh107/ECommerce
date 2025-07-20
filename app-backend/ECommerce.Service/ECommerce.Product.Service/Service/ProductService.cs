@@ -1,6 +1,6 @@
 ﻿using ECommerce.Product.Service.Model;
+using ECommerce.Product.Service.ProductContext;
 using ECommerce.Product.Service.Utility;
-using ECommerce.User.Service.Utility;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Newtonsoft.Json;
@@ -8,11 +8,12 @@ using System.Text;
 
 namespace ECommerce.Product.Service.Service
 {
-    public class ProductService(IMongoDatabase database, IOptions<ConfigurationItem> configValues) : IProductService
+    public class ProductService(IMongoDatabase database, IOptions<ConfigurationItem> configValues, ICacheService cacheService) : IProductService
     {
         #region Private Variables
         private readonly ConfigurationItem configItem = configValues.Value;
         private readonly HttpClient httpClient = new();
+        private readonly ICacheService cacheService = cacheService;
         #endregion
 
         /// <summary>
@@ -37,6 +38,14 @@ namespace ECommerce.Product.Service.Service
 
             // Add product in db
             productCollection.InsertOne(productDetail);
+
+            // Event Based Cache Invalidation
+            if (cacheService.KeyExistsAsync(ProductConstants.AllProducts).Result)
+            {
+                cacheService.RemoveAsync(ProductConstants.AllProducts).Wait();
+                traceLog.Append("Cache cleared for all products.###");
+            }
+
             isAdded = true;
 
             traceLog.Append("Exit From AddProduct Method");
@@ -55,8 +64,28 @@ namespace ECommerce.Product.Service.Service
         public IEnumerable<ProductModel> GetProducts(StringBuilder traceLog)
         {
             traceLog.Append("Started GetProducts Service Method.###");
+            if(cacheService.KeyExistsAsync(ProductConstants.AllProducts).Result)
+            {
+                traceLog.Append("Products found in cache.###");
+                string cachedData = cacheService.GetAsync(ProductConstants.AllProducts).Result ?? string.Empty;
+                if (!string.IsNullOrEmpty(cachedData))
+                {
+                    traceLog.Append("Returning cached products.###");
+                    return JsonConvert.DeserializeObject<IEnumerable<ProductModel>>(cachedData) ?? [];
+                }
+            }
+
             var productCollection = database.GetCollection<ProductModel>("Products");
             var products = productCollection.Find(_ => true).ToList();
+
+            // Add to Redis Cache
+            if (products.Count > 0)
+            {
+                string productData = JsonConvert.SerializeObject(products);
+                cacheService.SetAsync(ProductConstants.AllProducts, productData).Wait();
+                traceLog.Append("Products added to cache.###");
+            }
+    
             traceLog.Append("Exit From GetProducts Service Method.###");
             return products;
         }
@@ -70,6 +99,14 @@ namespace ECommerce.Product.Service.Service
         public ProductModel GetProductById(string id, StringBuilder traceLog)
         {
             traceLog.Append("Started GetProductById Service Method.###");
+            string cachedData = cacheService.GetAsync(ProductConstants.AllProducts).Result ?? string.Empty;
+            if (!string.IsNullOrEmpty(cachedData))
+            {
+                traceLog.Append("Product found in cache.###");
+                var productList = JsonConvert.DeserializeObject<IEnumerable<ProductModel>>(cachedData) ?? [];
+                return productList.FirstOrDefault(p => p.Id == id) ?? new();
+            }
+
             var productCollection = database.GetCollection<ProductModel>("Products");
             var product = productCollection.Find(p => p.Id == id).FirstOrDefault();
             traceLog.Append("Exit From GetProductById Service Method.###");
@@ -85,6 +122,14 @@ namespace ECommerce.Product.Service.Service
         public List<ProductModel> GetProductsByCategory(string category, StringBuilder traceLog)
         {
             traceLog.Append("Started GetProductsByCategory Service Method.###");
+            string cachedData = cacheService.GetAsync(ProductConstants.AllProducts).Result ?? string.Empty;
+            if (!string.IsNullOrEmpty(cachedData))
+            {
+                traceLog.Append("Product found in cache.###");
+                var productList = JsonConvert.DeserializeObject<IEnumerable<ProductModel>>(cachedData) ?? [];
+                return [.. productList.Where(p => p.Category == category)];
+            }
+
             var productCollection = database.GetCollection<ProductModel>("Products");
             var products = productCollection.Find(p => p.Category == category).ToList();
             traceLog.Append("Exit From GetProductsByCategory Service Method.###");
